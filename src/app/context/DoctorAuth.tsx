@@ -50,12 +50,11 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
         const retrieveUserInformation = await meDoctor();
         if (retrieveUserInformation) {
           setDoctor(retrieveUserInformation);
-          Router.push("/home");
         }
       }
     };
     retrieveUser();
-  }, [token]);
+  }, [token, Router]);
 
   const signIn = async ({ email, password }: AuthSignIn) => {
     setIsloading(true);
@@ -69,8 +68,7 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
         maxAge: expireToken,
       });
       setDoctor(doctor);
-      // api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      if (token) Router.push("/home");
+      if (token) Router.push("/patients");
       setIsloading(false);
     } catch (error) {
       toast.error("Usuário ou senha inválida");

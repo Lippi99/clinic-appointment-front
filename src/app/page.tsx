@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import NextLink from "next/link";
-import { signInDoctor } from "@/services/doctor";
 import { useDoctorAuth } from "./context/DoctorAuth";
 
 type LoginValidationSchema = z.infer<typeof loginSchema>;

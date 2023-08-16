@@ -1,11 +1,12 @@
-import { PatientLogin, SignUpValidationSchema } from "@/app/models/patient";
+import { Patient, SignUpValidationSchema } from "@/app/models/patient";
 import { isAxiosError } from "axios";
 import { api } from "./api";
-import { getAPIClient } from "./axios";
+import { getAPIServer } from "./fetch";
 
 export const createPatient = async (body: SignUpValidationSchema) => {
   try {
-    await api.post<SignUpValidationSchema>("/patient/create", body);
+    const res = await api.post<SignUpValidationSchema>("/patient/create", body);
+    return res;
   } catch (error) {
     if (isAxiosError(error) && error.response?.data?.message) {
       throw new Error(error.response.data.message);
@@ -15,29 +16,33 @@ export const createPatient = async (body: SignUpValidationSchema) => {
   }
 };
 
-// export const signInRequest = async ({ email, password }: PatientLogin) => {
-//   const data = {
-//     email,
-//     password,
-//   };
+export const listPatient = async (): Promise<Patient[]> => {
+  try {
+    const response = await api.get<Patient[]>("/patient/list");
+    if (!response.data) {
+      throw new Error("No data found");
+    }
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw error;
+    }
+  }
+};
 
-//   try {
-//     const apiClient = getAPIClient();
+export const listPatientById = async (id: string): Promise<Patient> => {
+  const response = await api.get<Patient>(`/patient/list/${id}`);
+  return response.data;
+};
 
-//     const response = await apiClient.post<PatientLogin>("/doctor/login", data);
+export const updatePatientById = async (body: Patient, id: string) => {
+  const response = await api.patch<Patient>(`/patient/update/${id}`, body);
+  return response.data;
+};
 
-//     const { admin, id, password, email, token } = response.data;
-
-//     let userAccount = {
-//       email,
-//       password,
-//       admin,
-//       id,
-//     };
-
-//     return {
-//       userAccount,
-//       token,
-//     };
-//   } catch (error) {}
-// };
+export const deletePatient = async (id: string) => {
+  const response = await api.delete<Patient>(`/patient/delete/${id}`);
+  return response.data;
+};
