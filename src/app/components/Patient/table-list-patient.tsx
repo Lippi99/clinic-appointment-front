@@ -1,5 +1,4 @@
 import { Patient } from "@/app/models/patient";
-import { formatDate } from "@/utils/date";
 import {
   Pagination,
   Table,
@@ -8,79 +7,88 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  Tooltip,
 } from "@nextui-org/react";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { VisualizePatient } from "./visualize-patient";
 import Link from "next/link";
 import { DeletePatient } from "./delete-patient";
+import { EditIcon } from "../Icons/EditIcon";
+import { format } from "date-fns";
 
 interface TableListPatientProps {
-  page: number;
-  setPage: (value: number) => void;
-  items: Patient[];
+  data: Patient[];
 }
 
-export const TableListPatient = ({
-  items,
-  page,
-  setPage,
-}: TableListPatientProps) => {
-  const rowsPerPage = 5;
+export const TableListPatient = ({ data }: TableListPatientProps) => {
+  const [page, setPage] = useState(1);
+
+  //table
+  const rowsPerPage = 10;
+  const items = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    return data && data.slice(start, end);
+  }, [page, data]);
+
   const pages = items && Math.ceil(items.length / rowsPerPage);
 
-  const renderCell = React.useCallback((user: Patient, columnKey: any) => {
-    const cellValue = user[columnKey as keyof typeof user];
+  const renderCell = React.useCallback((patient: Patient, columnKey: any) => {
+    const cellValue = patient[columnKey as keyof typeof patient];
 
     switch (columnKey) {
       case "name":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm text-white">{user.name}</p>
+            <p className="text-bold text-sm text-white">{patient.name}</p>
           </div>
         );
       case "email":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm  text-white">{user.email}</p>
+            <p className="text-bold text-sm  text-white">{patient.email}</p>
           </div>
         );
       case "region":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm  text-white">
-              {user.region ? user.region : " - "}
+              {patient.region ? patient.region : " - "}
             </p>
           </div>
         );
       case "lastName":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm text-white">{user.lastName}</p>
+            <p className="text-bold text-sm text-white">{patient.lastName}</p>
           </div>
         );
       case "birth":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm text-white">
-              {formatDate(user.birth)}
+              {format(new Date(patient.birth), "dd/MM/yyyy")}
             </p>
           </div>
         );
       case "actions":
         return (
-          <div className="relative flex items-center gap-2">
+          <div className="relative flex items-center gap-5">
             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-              <VisualizePatient patient={user} />
+              <VisualizePatient patient={patient} />
             </span>
 
-            <Link
-              href={`/patients/${user.id}`}
-              className="text-lg text-default-400 cursor-pointer active:opacity-50"
-            >
-              Editar
-            </Link>
+            <Tooltip content="Editar paciente">
+              <Link
+                href={`/patients/${patient.id}`}
+                className="text-lg text-default-400 cursor-pointer active:opacity-50"
+              >
+                <EditIcon />
+              </Link>
+            </Tooltip>
 
-            <DeletePatient patient={user} />
+            <DeletePatient patient={patient} />
           </div>
         );
       default:
@@ -90,7 +98,6 @@ export const TableListPatient = ({
 
   return (
     <Table
-      isStriped
       aria-label="Example table with client side pagination"
       bottomContent={
         <div className="flex w-full justify-end">
@@ -106,11 +113,11 @@ export const TableListPatient = ({
         </div>
       }
       classNames={{
-        table: "bg-main-bg-darker rounded-lg overflow-hidden",
-        emptyWrapper: "bg-main-bg-darker",
-        wrapper: "min-h-[222px] bg-main-bg-darker",
-        td: "text-white",
-        th: "bg-main-bg-darker text-zinc-400 text-lg font-bold",
+        table: "bg-main-bg rounded-lg overflow-hidden",
+        emptyWrapper: "bg-main-bg",
+        wrapper: "min-h-[222px] bg-main-bg-darker p-0 overflow-hidden",
+        td: "text-white p-5 border-b-1 border-slate-500",
+        th: "bg-main-bg text-zinc-400 text-lg font-bold text-white p-5 border-b-1 border-slate-500",
       }}
     >
       <TableHeader className="bg-main-bg-darker">

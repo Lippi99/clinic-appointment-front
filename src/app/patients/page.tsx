@@ -1,7 +1,6 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import LayoutHome from "./layout";
-import { Spinner } from "@nextui-org/react";
 
 import { useQuery } from "@tanstack/react-query";
 import { listPatient } from "@/services/patient";
@@ -9,24 +8,20 @@ import CreatePatient from "../components/Patient/create-patient";
 import { Patient } from "../models/patient";
 import { TableListPatient } from "../components/Patient/table-list-patient";
 
+import Loading from "./loading";
+import { useDebounce } from "@uidotdev/usehooks";
+
 export function Home() {
-  const [page, setPage] = useState(1);
+  const [name, setName] = useState("");
+  const debouncedSearch = useDebounce(name, 500);
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["listPatients"],
-    queryFn: listPatient,
-    refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 60 * 24,
-  });
-
-  //table
-  const rowsPerPage = 5;
-  const items = useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return data && data.slice(start, end);
-  }, [page, data]);
+  const { data, isFetching } = useQuery(
+    ["listPatients", debouncedSearch],
+    () => listPatient(debouncedSearch),
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
   return (
     <LayoutHome>
@@ -34,19 +29,21 @@ export function Home() {
         <h1 className="text-white text-3xl">Pacientes</h1>
         <CreatePatient />
       </header>
+      <div className="mt-5 mb-10 flex justify-end">
+        <input
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+          placeholder="Pesquise pelo paciente..."
+          className="text-white  bg-main-bg-darker max-w-xs border-none  w-full rounded-large outline-border-light p-2 border border-border-light"
+          type="text"
+        />
+      </div>
 
       <div className="max-w-5x2 w-full m-auto mt-20 flex flex-col">
         {isFetching ? (
-          <Spinner
-            label="Loading..."
-            className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-          />
+          <Loading />
         ) : (
-          <TableListPatient
-            page={page}
-            setPage={setPage}
-            items={items as Patient[]}
-          />
+          <TableListPatient data={data as Patient[]} />
         )}
       </div>
     </LayoutHome>

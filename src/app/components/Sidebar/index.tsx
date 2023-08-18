@@ -10,9 +10,9 @@ export const Sidebar = () => {
           </Link>
         </li>
         <li className="mb-4">
-          <a className="text-white" href="">
+          <Link className="text-white" href="/appointments">
             Consultas
-          </a>
+          </Link>
         </li>
       </ul>
     </aside>

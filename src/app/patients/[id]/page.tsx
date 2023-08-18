@@ -2,7 +2,7 @@
 
 import { Patient, SignUpValidationSchema } from "@/app/models/patient";
 import LayoutHome from "../layout";
-import { formatDate } from "@/utils/date";
+import { format } from "date-fns";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 
 import { Button, Spinner } from "@nextui-org/react";
 import Link from "next/link";
+import Loading from "../loading";
 
 const updatePatientSchema = z.object({
   name: z.string().min(3, "O nome deve ter no mínimo 3 caracteres"),
@@ -61,12 +62,7 @@ export default function Page({ params }: { params: { id: string } }) {
   });
 
   if (isLoading) {
-    return (
-      <Spinner
-        label="Loading..."
-        className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-      />
-    );
+    return <Loading />;
   }
 
   const handleUpdatePatient: SubmitHandler<Patient> = async (data) => {
@@ -134,7 +130,10 @@ export default function Page({ params }: { params: { id: string } }) {
             type="date"
             id="birth"
             title="Data de nascimento"
-            defaultValue={formatDate(patient?.birth as string, "yyyy-MM-dd")}
+            defaultValue={format(
+              new Date(patient?.birth as string),
+              "yyyy-MM-dd"
+            )}
             {...register("birth")}
           />
         </div>

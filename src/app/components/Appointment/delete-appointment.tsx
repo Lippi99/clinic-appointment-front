@@ -1,5 +1,4 @@
-import { Patient } from "@/app/models/patient";
-import { deletePatient } from "@/services/patient";
+import { Appointment } from "@/app/models/appointment";
 import {
   Button,
   Modal,
@@ -10,31 +9,32 @@ import {
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import { DeleteIcon } from "../Icons/DeleteIcon";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteAppointment } from "@/services/appointment";
 import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
-interface PatientProps {
-  patient: Patient;
+interface AppointmentProps {
+  appointment: Appointment;
 }
 
-export const DeletePatient = ({ patient }: PatientProps) => {
+export const DeleteAppointment = ({ appointment }: AppointmentProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   const queryClient = useQueryClient();
 
   const { mutateAsync, isLoading } = useMutation({
     mutationKey: ["deletePatient"],
-    mutationFn: () => deletePatient(patient.id as string),
+    mutationFn: () => deleteAppointment(appointment.id),
     onSuccess: () => {
-      queryClient.invalidateQueries(["listPatients"]);
+      queryClient.invalidateQueries(["listAppointments"]);
       onClose();
-      toast.success("Paciente deletado com sucesso!");
+      toast.success("Consulta deletada com sucesso!");
     },
     onError: (error: Error | AxiosError) => {
       if (axios.isAxiosError(error)) {
-        toast.error("Este  paciente tem uma consulta marcada");
+        toast.error("Erro ao deletar a consulta");
         return;
       }
     },
@@ -42,7 +42,7 @@ export const DeletePatient = ({ patient }: PatientProps) => {
 
   return (
     <>
-      <Tooltip content="Deletar paciente">
+      <Tooltip content="Deletar consulta">
         <span
           onClick={onOpen}
           className="text-lg text-danger cursor-pointer active:opacity-50"
@@ -62,13 +62,14 @@ export const DeletePatient = ({ patient }: PatientProps) => {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Deletar paciente
+                Deletar consulta
               </span>
             </ModalHeader>
 
             <ModalBody>
               <span className="text-lg text-white cursor-pointer active:opacity-50">
-                Deseja deletar o paciente {patient?.name}?
+                Deseja deletar a consulta do paciente {appointment.patient.name}
+                ?
               </span>
             </ModalBody>
             <ModalFooter>

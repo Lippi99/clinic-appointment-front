@@ -1,4 +1,4 @@
-import { Patient } from "@/app/models/patient";
+import { Appointment } from "@/app/models/appointment";
 import {
   Button,
   Modal,
@@ -12,16 +12,15 @@ import {
 import { EyeIcon } from "../Icons/ViewIcon";
 import { format } from "date-fns";
 
-interface PatientProps {
-  patient: Patient;
+interface AppointmentProps {
+  appointment: Appointment;
 }
 
-export const VisualizePatient = ({ patient }: PatientProps) => {
+export const VisualizeAppointment = ({ appointment }: AppointmentProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-
   return (
     <>
-      <Tooltip content="Visualizar paciente">
+      <Tooltip content="Visualizar consulta">
         <span
           onClick={onOpen}
           className="text-lg  text-default-400 cursor-pointer active:opacity-50"
@@ -41,12 +40,15 @@ export const VisualizePatient = ({ patient }: PatientProps) => {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Paciente {patient?.name}
+                Consulta
               </span>
             </ModalHeader>
 
             <ModalBody>
-              <div className="flex flex-col w-full mb-5">
+              <div className="flex flex-col w-full">
+                <label className="text-lg text-default-400 mb-3">
+                  Nome do paciente
+                </label>
                 <input
                   placeholder="Nome"
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
@@ -54,55 +56,38 @@ export const VisualizePatient = ({ patient }: PatientProps) => {
                   id="name"
                   title="name"
                   readOnly
-                  defaultValue={patient?.name}
-                />
-              </div>
-              <div className="flex flex-col w-full mb-5">
-                <input
-                  placeholder="Sobrenome"
-                  className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                  type="text"
-                  id="lastName"
-                  title="Sobrenome"
-                  readOnly
-                  defaultValue={patient?.lastName}
-                />
-              </div>
-              <div className="flex flex-col w-full mb-5">
-                <input
-                  placeholder="E-mail"
-                  className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                  type="email"
-                  id="email"
-                  title="email"
-                  readOnly
-                  defaultValue={patient?.email}
-                />
-              </div>
-
-              <div className="flex flex-col w-full mb-5">
-                <input
-                  placeholder="Endereço"
-                  className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                  type="text"
-                  id="address"
-                  title="address"
-                  readOnly
-                  defaultValue={patient?.address}
+                  defaultValue={appointment.patient.name}
                 />
               </div>
               <div className="flex flex-col w-full">
+                <label className="text-lg text-default-400 mb-3">
+                  Nome do médico
+                </label>
                 <input
-                  placeholder="Data de consulta"
+                  placeholder="Nome do doutor"
+                  className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
+                  type="text"
+                  id="doctorName"
+                  title="Nome do doutor"
+                  readOnly
+                  defaultValue={appointment.doctor.name}
+                />
+              </div>
+              <div className="flex flex-col w-full">
+                <label className="text-lg text-default-400 mb-3">
+                  Data da consulta
+                </label>
+                <input
+                  placeholder="E-mail"
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                   type="date"
-                  id="birth"
+                  id="dateSchedule"
+                  title="dateSchedule"
                   readOnly
                   defaultValue={format(
-                    new Date(patient?.birth as string),
+                    new Date(appointment?.dateSchedule as string),
                     "yyyy-MM-dd"
                   )}
-                  title="Data de nascimento"
                 />
               </div>
             </ModalBody>

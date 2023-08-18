@@ -1,5 +1,6 @@
 import { Doctor, DoctorLogin, DoctorToken } from "@/app/models/doctor";
 import { getAPIClient } from "./axios";
+import { api } from "./api";
 
 export const signInDoctor = async ({ email, password }: DoctorLogin) => {
   const data = {
@@ -33,4 +34,9 @@ export const meDoctor = async () => {
 
     return response.data;
   } catch (error) {}
+};
+
+export const listDoctors = async (): Promise<Doctor[]> => {
+  const response = await api.get<Doctor[]>("/doctor/list");
+  return response.data;
 };

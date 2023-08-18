@@ -16,9 +16,14 @@ export const createPatient = async (body: SignUpValidationSchema) => {
   }
 };
 
-export const listPatient = async (): Promise<Patient[]> => {
+export const listPatient = async (patientName: string): Promise<Patient[]> => {
   try {
-    const response = await api.get<Patient[]>("/patient/list");
+    let url = `/patient/list`;
+    if (patientName) {
+      url = `/patient/list?name=${patientName}`;
+    }
+
+    const response = await api.get<Patient[]>(url);
     if (!response.data) {
       throw new Error("No data found");
     }
