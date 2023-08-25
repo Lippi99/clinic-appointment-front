@@ -1,4 +1,4 @@
-import { Patient } from "@/app/models/patient";
+import { Patient, PatientData } from "@/app/models/patient";
 import {
   Pagination,
   Table,
@@ -14,25 +14,25 @@ import { VisualizePatient } from "./visualize-patient";
 import Link from "next/link";
 import { DeletePatient } from "./delete-patient";
 import { EditIcon } from "../Icons/EditIcon";
-import { format } from "date-fns";
+import { format, parse, parseISO } from "date-fns";
+import { formatDate } from "@/utils/date";
 
 interface TableListPatientProps {
-  data: Patient[];
+  data: PatientData;
 }
 
 export const TableListPatient = ({ data }: TableListPatientProps) => {
   const [page, setPage] = useState(1);
 
-  //table
   const rowsPerPage = 10;
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return data && data.slice(start, end);
+    return data && data.patients.slice(start, end);
   }, [page, data]);
 
-  const pages = items && Math.ceil(items.length / rowsPerPage);
+  const pages = items && Math.ceil(data.patients.length / rowsPerPage);
 
   const renderCell = React.useCallback((patient: Patient, columnKey: any) => {
     const cellValue = patient[columnKey as keyof typeof patient];
@@ -68,7 +68,7 @@ export const TableListPatient = ({ data }: TableListPatientProps) => {
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm text-white">
-              {format(new Date(patient.birth), "dd/MM/yyyy")}
+              {formatDate(patient.birth)}
             </p>
           </div>
         );
@@ -137,7 +137,7 @@ export const TableListPatient = ({ data }: TableListPatientProps) => {
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
+              <TableCell>{renderCell(item, columnKey) as any}</TableCell>
             )}
           </TableRow>
         )}

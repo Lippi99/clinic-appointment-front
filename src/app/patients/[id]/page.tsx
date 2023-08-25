@@ -2,17 +2,17 @@
 
 import { Patient, SignUpValidationSchema } from "@/app/models/patient";
 import LayoutHome from "../layout";
-import { format } from "date-fns";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { listPatientById, updatePatientById } from "@/services/patient";
 import { toast } from "react-toastify";
 
 import { Button, Spinner } from "@nextui-org/react";
 import Link from "next/link";
 import Loading from "../loading";
+import ReactDatePicker from "react-datepicker";
 
 const updatePatientSchema = z.object({
   name: z.string().min(3, "O nome deve ter no mínimo 3 caracteres"),
@@ -23,8 +23,9 @@ const updatePatientSchema = z.object({
     })
     .refine(
       (data) => {
+        const birth = new Date(data);
         const currentDate = new Date();
-        return new Date(data) < currentDate;
+        return birth <= currentDate;
       },
       {
         message: "A data de nascimento deve ser menor que a data atual",
@@ -43,6 +44,7 @@ export default function Page({ params }: { params: { id: string } }) {
   });
 
   const {
+    control,
     register,
     formState: { errors },
     handleSubmit,
@@ -54,6 +56,7 @@ export default function Page({ params }: { params: { id: string } }) {
     mutationFn: (values: Patient) => updatePatientById(values, params.id),
     onSuccess: () => {
       queryClient.invalidateQueries(["listPatientById"]);
+      queryClient.invalidateQueries(["listPatients"]);
       toast.success("Paciente atualizado com sucesso");
     },
     onError: () => {
@@ -66,7 +69,7 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   const handleUpdatePatient: SubmitHandler<Patient> = async (data) => {
-    mutate({ ...data, birth: new Date(data.birth).toISOString() });
+    mutate({ ...data });
   };
 
   return (
@@ -88,6 +91,9 @@ export default function Page({ params }: { params: { id: string } }) {
             defaultValue={patient?.name}
             {...register("name")}
           />
+          {errors.name && (
+            <span className="text-red-500 text-sm">{errors.name.message}</span>
+          )}
         </div>
         <div className="flex flex-col w-full mb-5">
           <input
@@ -99,6 +105,11 @@ export default function Page({ params }: { params: { id: string } }) {
             defaultValue={patient?.lastName}
             {...register("lastName")}
           />
+          {errors.lastName && (
+            <span className="text-red-500 text-sm">
+              {errors.lastName.message}
+            </span>
+          )}
         </div>
         <div className="flex flex-col w-full mb-5">
           <input
@@ -110,6 +121,9 @@ export default function Page({ params }: { params: { id: string } }) {
             defaultValue={patient?.email}
             {...register("email")}
           />
+          {errors.email && (
+            <span className="text-red-500 text-sm">{errors.email.message}</span>
+          )}
         </div>
 
         <div className="flex flex-col w-full mb-5">
@@ -122,20 +136,31 @@ export default function Page({ params }: { params: { id: string } }) {
             defaultValue={patient?.address}
             {...register("address")}
           />
+          {errors.address && (
+            <span className="text-red-500 text-sm">
+              {errors.address.message}
+            </span>
+          )}
         </div>
         <div className="flex flex-col w-full">
-          <input
-            placeholder="Data de consulta"
-            className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-            type="date"
-            id="birth"
-            title="Data de nascimento"
-            defaultValue={format(
-              new Date(patient?.birth as string),
-              "yyyy-MM-dd"
+          <Controller
+            control={control}
+            name="birth"
+            defaultValue={patient?.birth}
+            render={({ field }) => (
+              <ReactDatePicker
+                className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
+                placeholderText="Data de nascimento"
+                onChange={(date) => field.onChange(date?.toISOString())}
+                selected={field.value ? new Date(field.value) : null}
+                dateFormat="dd/MM/yyyy"
+                id="birth"
+              />
             )}
-            {...register("birth")}
           />
+          {errors.birth && (
+            <span className="text-red-500 text-sm">{errors.birth.message}</span>
+          )}
         </div>
         <div className="flex items-center gap-5">
           <Button

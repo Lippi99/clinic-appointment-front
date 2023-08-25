@@ -8,13 +8,14 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignUpValidationSchema } from "@/app/models/patient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPatient } from "@/services/patient";
 import { toast } from "react-toastify";
+import ReactDatePicker from "react-datepicker";
 
 const registerPatientSchema = z.object({
   name: z.string().min(3, "O nome deve ter no mínimo 3 caracteres"),
@@ -39,6 +40,7 @@ const registerPatientSchema = z.object({
 export default function CreatePatient() {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const {
+    control,
     register,
     reset,
     formState: { errors },
@@ -156,13 +158,19 @@ export default function CreatePatient() {
                   )}
                 </div>
                 <div className="flex flex-col w-full">
-                  <input
-                    placeholder="Data de consulta"
-                    className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                    type="date"
-                    id="birth"
-                    title="Data de nascimento"
-                    {...register("birth")}
+                  <Controller
+                    control={control}
+                    name="birth"
+                    render={({ field }) => (
+                      <ReactDatePicker
+                        className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
+                        placeholderText="Data de nascimento"
+                        onChange={(date) => field.onChange(date?.toISOString())}
+                        selected={field.value ? new Date(field.value) : null}
+                        dateFormat="dd/MM/yyyy"
+                        id="birth"
+                      />
+                    )}
                   />
                   {errors.birth && (
                     <span className="text-red-light">

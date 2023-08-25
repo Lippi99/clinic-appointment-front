@@ -2,7 +2,7 @@ export interface SignUpValidationSchema {
   email: string;
   name: string;
   address: string;
-  birth: string;
+  birth: Date;
   date: string;
   lastName: string;
   region: string;
@@ -15,7 +15,7 @@ export interface PatientLogin {
 
 export interface Patient {
   address: string;
-  birth: string;
+  birth: Date;
   createdAt?: string;
   email: string;
   id?: string;
@@ -25,4 +25,8 @@ export interface Patient {
   region: string;
   role?: string;
   updatedAt?: string;
+}
+
+export interface PatientData {
+  patients: Patient[];
 }

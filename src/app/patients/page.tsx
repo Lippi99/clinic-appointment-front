@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import LayoutHome from "./layout";
 
 import { useQuery } from "@tanstack/react-query";
 import { listPatient } from "@/services/patient";
 import CreatePatient from "../components/Patient/create-patient";
-import { Patient } from "../models/patient";
+import { Patient, PatientData } from "../models/patient";
 import { TableListPatient } from "../components/Patient/table-list-patient";
 
 import Loading from "./loading";
@@ -15,11 +15,12 @@ export function Home() {
   const [name, setName] = useState("");
   const debouncedSearch = useDebounce(name, 500);
 
-  const { data, isFetching } = useQuery(
+  const { data } = useQuery(
     ["listPatients", debouncedSearch],
     () => listPatient(debouncedSearch),
     {
       refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 60 * 24, // 24 hours,
     }
   );
 
@@ -40,11 +41,9 @@ export function Home() {
       </div>
 
       <div className="max-w-5x2 w-full m-auto mt-20 flex flex-col">
-        {isFetching ? (
-          <Loading />
-        ) : (
-          <TableListPatient data={data as Patient[]} />
-        )}
+        <Suspense fallback={<Loading />}>
+          <TableListPatient data={data as PatientData} />
+        </Suspense>
       </div>
     </LayoutHome>
   );

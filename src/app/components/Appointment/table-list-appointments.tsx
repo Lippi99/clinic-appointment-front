@@ -15,6 +15,7 @@ import { VisualizeAppointment } from "./visualize-appointment";
 import { EditIcon } from "../Icons/EditIcon";
 import { DeleteAppointment } from "./delete-appointment";
 import { format } from "date-fns";
+import { formatDate } from "@/utils/date";
 
 interface TableListAppointmentsProps {
   data: Appointment[];
@@ -46,11 +47,19 @@ export const TableListAppointments = ({ data }: TableListAppointmentsProps) => {
               </p>
             </div>
           );
+        case "specialization":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-sm text-white">
+                {`${appointment.doctor.specialization.name}`}
+              </p>
+            </div>
+          );
         case "patientName":
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm  text-white">
-                {appointment.patient.name}
+                {`${appointment.patient.name} ${appointment.patient.lastName}`}
               </p>
             </div>
           );
@@ -58,10 +67,7 @@ export const TableListAppointments = ({ data }: TableListAppointmentsProps) => {
           return (
             <div className="flex flex-col">
               <p className="text-bold text-sm  text-white">
-                {format(
-                  new Date(appointment.dateSchedule as string),
-                  "dd/MM/yyyy"
-                )}
+                {formatDate(appointment.dateSchedule)}
               </p>
             </div>
           );
@@ -126,6 +132,7 @@ export const TableListAppointments = ({ data }: TableListAppointmentsProps) => {
     >
       <TableHeader className="bg-main-bg-darker">
         <TableColumn key="doctorName">Nome do médico</TableColumn>
+        <TableColumn key="specialization">Especialização</TableColumn>
         <TableColumn key="patientName">Nome do paciente</TableColumn>
         <TableColumn key="dateSchedule">Data da consulta</TableColumn>
         <TableColumn key="timeSchedule">Hora da consulta</TableColumn>

@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { Header } from "../components/Header";
 import { ReactToast } from "../components/ReactToast";
 import { Sidebar } from "../components/Sidebar";

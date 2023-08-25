@@ -1,7 +1,10 @@
-import { Patient, SignUpValidationSchema } from "@/app/models/patient";
+import {
+  Patient,
+  PatientData,
+  SignUpValidationSchema,
+} from "@/app/models/patient";
 import { isAxiosError } from "axios";
 import { api } from "./api";
-import { getAPIServer } from "./fetch";
 
 export const createPatient = async (body: SignUpValidationSchema) => {
   try {
@@ -16,14 +19,16 @@ export const createPatient = async (body: SignUpValidationSchema) => {
   }
 };
 
-export const listPatient = async (patientName: string): Promise<Patient[]> => {
+export const listPatient = async (
+  patientName: string
+): Promise<PatientData> => {
   try {
     let url = `/patient/list`;
     if (patientName) {
       url = `/patient/list?name=${patientName}`;
     }
 
-    const response = await api.get<Patient[]>(url);
+    const response = await api.get<PatientData>(url);
     if (!response.data) {
       throw new Error("No data found");
     }

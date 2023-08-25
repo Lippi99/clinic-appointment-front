@@ -11,6 +11,8 @@ import {
 } from "@nextui-org/react";
 import { EyeIcon } from "../Icons/ViewIcon";
 import { format } from "date-fns";
+import ReactDatePicker from "react-datepicker";
+import { Controller } from "react-hook-form";
 
 interface AppointmentProps {
   appointment: Appointment;
@@ -77,16 +79,17 @@ export const VisualizeAppointment = ({ appointment }: AppointmentProps) => {
                 <label className="text-lg text-default-400 mb-3">
                   Data da consulta
                 </label>
+
                 <input
                   placeholder="E-mail"
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                  type="date"
+                  type="text"
                   id="dateSchedule"
                   title="dateSchedule"
                   readOnly
                   defaultValue={format(
-                    new Date(appointment?.dateSchedule as string),
-                    "yyyy-MM-dd"
+                    new Date(appointment?.dateSchedule),
+                    "dd/MM/yyyy"
                   )}
                 />
               </div>

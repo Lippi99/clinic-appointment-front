@@ -5,7 +5,7 @@ import LayoutAppointments from "../layout";
 import { listPatient } from "@/services/patient";
 import { listDoctors } from "@/services/doctor";
 import { Button } from "@nextui-org/react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +14,7 @@ import { UpdateAppointment } from "@/app/models/appointment";
 import Loading from "../loading";
 import axios, { AxiosError } from "axios";
 import { format } from "date-fns";
+import ReactDatePicker from "react-datepicker";
 
 const registerPatientSchema = z.object({
   patientId: z
@@ -58,8 +59,8 @@ export default function Page({ params }: { params: { id: string } }) {
   });
 
   const {
+    control,
     register,
-    reset,
     formState: { errors },
     handleSubmit,
   } = useForm<UpdateAppointment>({
@@ -71,8 +72,7 @@ export default function Page({ params }: { params: { id: string } }) {
       mutationFn: (values: UpdateAppointment) =>
         updateAppointment(values, params.id),
       onSuccess: () => {
-        queryClient.invalidateQueries(["listAppointments"]);
-        reset();
+        queryClient.invalidateQueries(["listAppointmentById"]);
         toast.success("Consulta atualizada com sucesso!");
       },
       onError: (error: Error | AxiosError) => {
@@ -91,7 +91,6 @@ export default function Page({ params }: { params: { id: string } }) {
   ) => {
     mutateUpdateAppointment({
       ...data,
-      dateSchedule: new Date(data.dateSchedule),
     });
   };
 
@@ -166,18 +165,23 @@ export default function Page({ params }: { params: { id: string } }) {
           <label className="text-lg text-default-400 mb-3">
             Data da consulta
           </label>
-          <input
-            placeholder="Consulta"
-            className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-            type="date"
-            id="dateSchedule"
-            title="dateSchedule"
-            {...register("dateSchedule")}
-            defaultValue={format(
-              new Date(appointment?.dateSchedule as string),
-              "yyyy-MM-dd"
+
+          <Controller
+            control={control}
+            name="dateSchedule"
+            defaultValue={appointment?.dateSchedule}
+            render={({ field }) => (
+              <ReactDatePicker
+                className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
+                placeholderText="Consulta"
+                onChange={(date) => field.onChange(date?.toISOString())}
+                selected={field.value ? new Date(field.value) : null}
+                dateFormat="dd/MM/yyyy"
+                id="dateSchedule"
+              />
             )}
           />
+
           {errors.dateSchedule && (
             <span className="text-red-light">
               {errors.dateSchedule.message}
@@ -209,7 +213,7 @@ export default function Page({ params }: { params: { id: string } }) {
             color="primary"
             type="button"
           >
-            <Link className="w-full" href="/patients">
+            <Link className="w-full" href="/appointments">
               Voltar
             </Link>
           </Button>

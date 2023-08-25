@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import { EyeIcon } from "../Icons/ViewIcon";
 import { format } from "date-fns";
+import { formatDate } from "@/utils/date";
 
 interface PatientProps {
   patient: Patient;
@@ -95,13 +96,10 @@ export const VisualizePatient = ({ patient }: PatientProps) => {
                 <input
                   placeholder="Data de consulta"
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                  type="date"
+                  type="text"
                   id="birth"
                   readOnly
-                  defaultValue={format(
-                    new Date(patient?.birth as string),
-                    "yyyy-MM-dd"
-                  )}
+                  defaultValue={format(new Date(patient?.birth), "dd/MM/yyyy")}
                   title="Data de nascimento"
                 />
               </div>

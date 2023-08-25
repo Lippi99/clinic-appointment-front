@@ -1,6 +1,6 @@
 export interface Appointment {
   id: string;
-  dateSchedule: string;
+  dateSchedule: Date;
   timeSchedule: string;
   patientId: string;
   doctorId: string;
@@ -8,6 +8,7 @@ export interface Appointment {
   updatedAt: string;
   patient: {
     name: string;
+    lastName: string;
     role: string;
     email: string;
     address: string;
@@ -32,6 +33,6 @@ export interface UpdateAppointment {
 export interface CreateAppointment {
   patientId: string;
   doctorId: string;
-  dateSchedule: Date;
+  dateSchedule: string;
   timeSchedule: string;
 }
