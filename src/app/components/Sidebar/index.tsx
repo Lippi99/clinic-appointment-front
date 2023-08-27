@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { AiOutlineCalendar, AiOutlineUser } from "react-icons/ai";
+import { GiSkills } from "react-icons/gi";
 import { usePathname } from "next/navigation";
 
 export const Sidebar = () => {
@@ -15,14 +16,14 @@ export const Sidebar = () => {
           }`}
         >
           <Link
-            className="pt-4 pb-4 block w-full h-full text-white"
+            className="pt-4 pb-4 flex items-center justify-evenly w-full h-full text-white"
             href="/patients"
           >
             <AiOutlineUser
               AiOutlineUser
               className="inline-block text-3xl mr-4"
             />
-            Pacientes
+            <span>Pacientes</span>
           </Link>
         </li>
         <li
@@ -31,14 +32,27 @@ export const Sidebar = () => {
           }`}
         >
           <Link
-            className="pt-4 pb-4 flex items-center justify-center w-full h-full text-white"
+            className="pt-4 pb-4 flex items-center justify-evenly w-full h-full text-white"
             href="/appointments"
           >
             <AiOutlineCalendar
               AiOutlineUser
               className="inline-block text-3xl mr-4"
             />
-            Consultas
+            <span>Consultas</span>
+          </Link>
+        </li>
+        <li
+          className={`rounded-xl w-11/12  ${
+            path.includes("/especializations") ? "bg-main-bg" : null
+          }`}
+        >
+          <Link
+            className="pt-4 pb-4 flex items-center justify-evenly w-full h-full text-white"
+            href="/especializations"
+          >
+            <GiSkills AiOutlineUser className="inline-block text-3xl mr-4" />
+            <span>Especializações</span>
           </Link>
         </li>
       </ul>
