@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import Loading from "./loading";
 
-export function Appointments() {
+export default function Appointments() {
   const [name, setName] = useState("");
   const debouncedSearch = useDebounce(name, 500);
 
@@ -30,7 +30,7 @@ export function Appointments() {
         <input
           onChange={(e) => setName(e.target.value)}
           value={name}
-          placeholder="Pesquise pelo médico..."
+          placeholder="Pesquise pela consulta..."
           className="text-white  bg-main-bg-darker max-w-xs border-none  w-full rounded-large outline-border-light p-2 border border-border-light"
           type="text"
         />
@@ -46,5 +46,3 @@ export function Appointments() {
     </LayoutAppointments>
   );
 }
-
-export default Appointments;

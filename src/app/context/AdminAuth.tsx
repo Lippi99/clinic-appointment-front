@@ -11,10 +11,9 @@ import {
 import { setCookie } from "nookies";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
-import { api } from "@/services/api";
-import { meDoctor, signInDoctor } from "@/services/doctor";
-import { Doctor } from "../models/doctor";
+import { meAdmin, signInAdmin } from "@/services/admin";
 import { ToastContainer, toast } from "react-toastify";
+import { Admin } from "../models/admin";
 
 interface AuthSignIn {
   email: string;
@@ -24,9 +23,9 @@ interface AuthContextType {
   isAuthenticated: boolean;
   signIn: ({ email, password }: AuthSignIn) => Promise<void>;
   errorMessageLogin: ReactElement;
-  isLoading: boolean;
-  doctor: Doctor | null;
-  ToastDoctorAuth: typeof ToastContainer;
+
+  admin: Admin | null;
+  ToastAdminAuth: typeof ToastContainer;
 }
 
 interface ChildrenProps {
@@ -36,43 +35,39 @@ interface ChildrenProps {
 const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: ChildrenProps) => {
-  const [doctor, setDoctor] = useState<Doctor | null>(null);
-  const [isLoading, setIsloading] = useState(false);
+  const [admin, setAdmin] = useState<Admin | null>(null);
 
-  const isAuthenticated = !!doctor;
+  const isAuthenticated = !!admin;
   const Router = useRouter();
 
-  const { "doctor.auth": token } = parseCookies();
+  const { "admin.auth": token } = parseCookies();
 
   useEffect(() => {
-    const retrieveUser = async () => {
+    const retrieverAdmin = async () => {
       if (token) {
-        const retrieveUserInformation = await meDoctor();
+        const retrieveUserInformation = await meAdmin();
         if (retrieveUserInformation) {
-          setDoctor(retrieveUserInformation);
+          setAdmin(retrieveUserInformation);
         }
       }
     };
-    retrieveUser();
+    retrieverAdmin();
   }, [token, Router]);
 
   const signIn = async ({ email, password }: AuthSignIn) => {
-    setIsloading(true);
     try {
-      const { token } = (await signInDoctor({ email, password })) || {};
-      const expireToken = 60 * 60 * 1; // 1 hour
+      const { token } = (await signInAdmin({ email, password })) || {};
+      const expireToken = 60 * 60 * 24; // 24hr;
       if (token == undefined) {
         throw Error();
       }
-      setCookie(undefined, "doctor.auth", `${token}`, {
+      setCookie(undefined, "admin.auth", `${token}`, {
         maxAge: expireToken,
       });
-      setDoctor(doctor);
+      setAdmin(admin);
       if (token) Router.push("/patients");
-      setIsloading(false);
     } catch (error) {
       toast.error("Usuário ou senha inválida");
-      setIsloading(false);
     }
   };
 
@@ -82,9 +77,9 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
         isAuthenticated,
         signIn,
         errorMessageLogin: <p>Usuário ou senha incorretos</p>,
-        isLoading,
-        doctor,
-        ToastDoctorAuth: ToastContainer,
+
+        admin,
+        ToastAdminAuth: ToastContainer,
       }}
     >
       {children}
@@ -92,7 +87,7 @@ export const AuthProvider = ({ children }: ChildrenProps) => {
   );
 };
 
-export const useDoctorAuth = () => {
+export const useAdminAuth = () => {
   const context = useContext(AuthContext);
   return context;
 };

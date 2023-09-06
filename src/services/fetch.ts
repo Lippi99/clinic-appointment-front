@@ -1,7 +1,7 @@
 import { parseCookies } from "nookies";
 
 export const getAPIServer = (url: string, method: string, data: any) => {
-  const { "doctor.auth": token } = parseCookies();
+  const { "admin.auth": token } = parseCookies();
 
   const headers: { [key: string]: string } = {};
 
@@ -9,7 +9,7 @@ export const getAPIServer = (url: string, method: string, data: any) => {
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  return fetch(`http://localhost:4000${url}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
     headers,
     method,
     body: JSON.stringify(data),

@@ -14,7 +14,6 @@ import React, { useMemo, useState } from "react";
 import { VisualizeAppointment } from "./visualize-appointment";
 import { EditIcon } from "../Icons/EditIcon";
 import { DeleteAppointment } from "./delete-appointment";
-import { format } from "date-fns";
 import { formatDate } from "@/utils/date";
 
 interface TableListAppointmentsProps {

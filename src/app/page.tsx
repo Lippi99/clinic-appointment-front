@@ -5,7 +5,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import NextLink from "next/link";
-import { useDoctorAuth } from "./context/DoctorAuth";
+import { useAdminAuth } from "./context/AdminAuth";
+import { useState } from "react";
 
 type LoginValidationSchema = z.infer<typeof loginSchema>;
 
@@ -14,6 +15,8 @@ const loginSchema = z.object({
   password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
 });
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -22,13 +25,15 @@ export default function Home() {
     resolver: zodResolver(loginSchema),
   });
 
-  const { signIn, isLoading, ToastDoctorAuth } = useDoctorAuth();
+  const { signIn, ToastAdminAuth } = useAdminAuth();
 
   const handleLogin: SubmitHandler<LoginValidationSchema> = async (data) => {
+    setIsLoading(true);
     try {
       await signIn(data);
+      setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -89,7 +94,7 @@ export default function Home() {
           </span>
         </div>
       </div>
-      <ToastDoctorAuth />
+      <ToastAdminAuth />
     </main>
   );
 }

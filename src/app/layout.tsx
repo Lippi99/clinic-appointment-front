@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import "react-toastify/dist/ReactToastify.css";
-import { AuthProvider } from "./context/DoctorAuth";
+import { AuthProvider } from "./context/AdminAuth";
 import { Providers } from "./providers";
 import { ReactQueryProvider } from "./ReactQueryProvider";
 

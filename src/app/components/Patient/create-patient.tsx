@@ -33,6 +33,11 @@ const registerPatientSchema = z.object({
         message: "A data de nascimento deve ser menor que a data atual",
       }
     ),
+  region: z
+    .string({
+      required_error: "A região deve ser informada",
+    })
+    .min(3, "A região deve ser informada"),
   address: z.string().min(3, "O endereço deve ser informado"),
   email: z.string().email("Informe seu e-mail"),
 });
@@ -96,37 +101,48 @@ export default function CreatePatient() {
             </ModalHeader>
             <form onSubmit={handleSubmit(handleRegisterPatient)}>
               <ModalBody>
-                <div className="flex flex-col w-full mb-5">
-                  <input
-                    placeholder="Nome"
-                    className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                    type="text"
-                    id="name"
-                    title="name"
-                    {...register("name")}
-                  />
-                  {errors.name && (
-                    <span className="text-red-light">
-                      {errors.name.message}
-                    </span>
-                  )}
+                <div className="flex gap-3">
+                  <div className="flex flex-col w-full mb-5">
+                    <label className="text-lg text-default-400 mb-3">
+                      Nome do paciente
+                    </label>
+                    <input
+                      placeholder="Nome"
+                      className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
+                      type="text"
+                      id="name"
+                      title="name"
+                      {...register("name")}
+                    />
+                    {errors.name && (
+                      <span className="text-red-light">
+                        {errors.name.message}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex flex-col w-full mb-5">
+                    <label className="text-lg text-default-400 mb-3">
+                      Sobrenome do paciente
+                    </label>
+                    <input
+                      placeholder="Sobrenome"
+                      className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
+                      type="text"
+                      id="lastName"
+                      title="Sobrenome"
+                      {...register("lastName")}
+                    />
+                    {errors.lastName && (
+                      <span className="text-red-light">
+                        {errors.lastName.message}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="flex flex-col w-full mb-5">
-                  <input
-                    placeholder="Sobrenome"
-                    className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                    type="text"
-                    id="lastName"
-                    title="Sobrenome"
-                    {...register("lastName")}
-                  />
-                  {errors.lastName && (
-                    <span className="text-red-light">
-                      {errors.lastName.message}
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-col w-full mb-5">
+                  <label className="text-lg text-default-400 mb-3">
+                    E-mail do paciente
+                  </label>
                   <input
                     placeholder="E-mail"
                     className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
@@ -141,23 +157,48 @@ export default function CreatePatient() {
                     </span>
                   )}
                 </div>
-
-                <div className="flex flex-col w-full mb-5">
-                  <input
-                    placeholder="Endereço"
-                    className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                    type="text"
-                    id="address"
-                    title="address"
-                    {...register("address")}
-                  />
-                  {errors.address && (
-                    <span className="text-red-light">
-                      {errors.address.message}
-                    </span>
-                  )}
+                <div className="flex gap-3">
+                  <div className="flex flex-col w-full mb-5">
+                    <label className="text-lg text-default-400 mb-3">
+                      Endereço do paciente
+                    </label>
+                    <input
+                      placeholder="Endereço"
+                      className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
+                      type="text"
+                      id="address"
+                      title="address"
+                      {...register("address")}
+                    />
+                    {errors.address && (
+                      <span className="text-red-light">
+                        {errors.address.message}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex flex-col w-full mb-5">
+                    <label className="text-lg text-default-400 mb-3">
+                      Região do paciente
+                    </label>
+                    <input
+                      placeholder="Teresópolis / RJ"
+                      className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
+                      type="text"
+                      id="region"
+                      title="region"
+                      {...register("region")}
+                    />
+                    {errors.region && (
+                      <span className="text-red-light">
+                        {errors.region.message}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="flex flex-col w-full">
+                  <label className="text-lg text-default-400 mb-3">
+                    Data de nascimento do paciente
+                  </label>
                   <Controller
                     control={control}
                     name="birth"

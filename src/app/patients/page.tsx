@@ -5,13 +5,13 @@ import LayoutHome from "./layout";
 import { useQuery } from "@tanstack/react-query";
 import { listPatient } from "@/services/patient";
 import CreatePatient from "../components/Patient/create-patient";
-import { Patient, PatientData } from "../models/patient";
+import { PatientData } from "../models/patient";
 import { TableListPatient } from "../components/Patient/table-list-patient";
 
 import Loading from "./loading";
 import { useDebounce } from "@uidotdev/usehooks";
 
-export function Home() {
+export default function Home() {
   const [name, setName] = useState("");
   const debouncedSearch = useDebounce(name, 500);
 
@@ -48,5 +48,3 @@ export function Home() {
     </LayoutHome>
   );
 }
-
-export default Home;

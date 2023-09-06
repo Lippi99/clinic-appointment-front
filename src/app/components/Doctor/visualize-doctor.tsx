@@ -1,4 +1,3 @@
-import { Patient } from "@/app/models/patient";
 import {
   Button,
   Modal,
@@ -11,12 +10,13 @@ import {
 } from "@nextui-org/react";
 import { EyeIcon } from "../Icons/ViewIcon";
 import { format } from "date-fns";
+import { Doctor } from "@/app/models/doctor";
 
-interface PatientProps {
-  patient: Patient;
+interface DoctorProps {
+  doctor: Doctor;
 }
 
-export const VisualizePatient = ({ patient }: PatientProps) => {
+export const VisualizeDoctor = ({ doctor }: DoctorProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   return (
@@ -41,7 +41,7 @@ export const VisualizePatient = ({ patient }: PatientProps) => {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Paciente {patient?.name}
+                Médico {doctor.name}
               </span>
             </ModalHeader>
 
@@ -54,52 +54,29 @@ export const VisualizePatient = ({ patient }: PatientProps) => {
                   id="name"
                   title="name"
                   readOnly
-                  defaultValue={patient?.name}
+                  defaultValue={doctor?.name}
                 />
               </div>
               <div className="flex flex-col w-full mb-5">
                 <input
                   placeholder="Sobrenome"
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                  type="text"
-                  id="lastName"
-                  title="Sobrenome"
-                  readOnly
-                  defaultValue={patient?.lastName}
-                />
-              </div>
-              <div className="flex flex-col w-full mb-5">
-                <input
-                  placeholder="E-mail"
-                  className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                   type="email"
                   id="email"
-                  title="email"
+                  title="E-mail"
                   readOnly
-                  defaultValue={patient?.email}
+                  defaultValue={doctor.email}
                 />
               </div>
-
               <div className="flex flex-col w-full mb-5">
                 <input
-                  placeholder="Endereço"
+                  placeholder="Especialização"
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                   type="text"
-                  id="address"
-                  title="address"
+                  id="especialization"
+                  title="especialization"
                   readOnly
-                  defaultValue={patient?.address}
-                />
-              </div>
-              <div className="flex flex-col w-full">
-                <input
-                  placeholder="Data de consulta"
-                  className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                  type="text"
-                  id="birth"
-                  readOnly
-                  defaultValue={format(new Date(patient?.birth), "dd/MM/yyyy")}
-                  title="Data de nascimento"
+                  defaultValue={doctor.specialization.name}
                 />
               </div>
             </ModalBody>

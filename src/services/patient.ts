@@ -20,7 +20,7 @@ export const createPatient = async (body: SignUpValidationSchema) => {
 };
 
 export const listPatient = async (
-  patientName: string
+  patientName?: string
 ): Promise<PatientData> => {
   try {
     let url = `/patient/list`;

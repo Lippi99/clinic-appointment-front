@@ -4,10 +4,10 @@ import { Sidebar } from "../components/Sidebar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Consultas",
-  description: "Consultas de pacientes",
+  title: "Médicos",
+  description: "Cadastrar médicos",
 };
-export default function LayoutAppointments({
+export default function LayoutDoctors({
   children,
 }: {
   children: React.ReactNode;

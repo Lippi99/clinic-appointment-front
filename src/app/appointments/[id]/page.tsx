@@ -13,7 +13,6 @@ import { z } from "zod";
 import { UpdateAppointment } from "@/app/models/appointment";
 import Loading from "../loading";
 import axios, { AxiosError } from "axios";
-import { format } from "date-fns";
 import ReactDatePicker from "react-datepicker";
 
 const registerPatientSchema = z.object({
@@ -42,7 +41,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const queryClient = useQueryClient();
 
   const { data: pacients, isLoading } = useQuery({
-    queryFn: () => listPatient(""),
+    queryFn: () => listPatient(),
     queryKey: ["listPatients"],
     refetchOnWindowFocus: false,
   });
@@ -111,21 +110,23 @@ export default function Page({ params }: { params: { id: string } }) {
           <label className="text-lg text-default-400 mb-3">
             Nome do paciente
           </label>
+
           <select
             id="patientId"
-            title="Id do paciente"
+            title="Nome do paciente"
             className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
             placeholder="Nome do paciente"
             {...register("patientId")}
             defaultValue={appointment?.patientId}
           >
-            {pacients?.map((pacient) => (
+            {pacients?.patients?.map((patient) => (
               <option
-                defaultValue={pacient.id}
-                key={pacient.id}
-                value={pacient.id}
+                key={patient.id}
+                defaultValue={patient.id}
+                className="hover:bg-main-bg-darker"
+                value={patient.id}
               >
-                {pacient.name}
+                {patient.name}
               </option>
             ))}
           </select>

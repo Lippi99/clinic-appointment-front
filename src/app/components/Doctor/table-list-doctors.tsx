@@ -1,4 +1,4 @@
-import { Patient, PatientData } from "@/app/models/patient";
+import { Doctor } from "@/app/models/doctor";
 import {
   Pagination,
   Table,
@@ -9,18 +9,17 @@ import {
   TableRow,
   Tooltip,
 } from "@nextui-org/react";
-import React, { useMemo, useState } from "react";
-import { VisualizePatient } from "./visualize-patient";
 import Link from "next/link";
-import { DeletePatient } from "./delete-patient";
+import { useCallback, useMemo, useState } from "react";
 import { EditIcon } from "../Icons/EditIcon";
-import { formatDate } from "@/utils/date";
+import { VisualizeDoctor } from "./visualize-doctor";
+import { DeleteDoctor } from "./delete-doctor";
 
-interface TableListPatientProps {
-  data: PatientData;
+interface TableListDoctorProps {
+  doctors: Doctor[];
 }
 
-export const TableListPatient = ({ data }: TableListPatientProps) => {
+export const TableListDoctors = ({ doctors }: TableListDoctorProps) => {
   const [page, setPage] = useState(1);
 
   const rowsPerPage = 10;
@@ -28,73 +27,50 @@ export const TableListPatient = ({ data }: TableListPatientProps) => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return data && data.patients.slice(start, end);
-  }, [page, data]);
+    return doctors && doctors.slice(start, end);
+  }, [page, doctors]);
 
-  const pages = items && Math.ceil(data.patients.length / rowsPerPage);
+  const pages = items && Math.ceil(doctors.length / rowsPerPage);
 
-  const renderCell = React.useCallback((patient: Patient, columnKey: any) => {
-    const cellValue = patient[columnKey as keyof typeof patient];
+  const renderCell = useCallback((doctor: Doctor, columnKey: any) => {
+    const cellValue = doctor[columnKey as keyof typeof doctor];
 
     switch (columnKey) {
       case "name":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm text-white">{patient.name}</p>
+            <p className="text-bold text-sm text-white">{doctor.name}</p>
           </div>
         );
       case "email":
         return (
           <div className="flex flex-col">
-            <p className="text-bold text-sm  text-white">{patient.email}</p>
+            <p className="text-bold text-sm  text-white">{doctor.email}</p>
           </div>
         );
-      case "region":
+      case "specialization":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-sm  text-white">
-              {patient.region ? patient.region : " - "}
+              {doctor.specialization.name ? doctor.specialization.name : " - "}
             </p>
           </div>
         );
-      case "lastName":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm text-white">{patient.lastName}</p>
-          </div>
-        );
-      case "birth":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm text-white">
-              {formatDate(patient.birth)}
-            </p>
-          </div>
-        );
+
       case "actions":
         return (
           <div className="relative flex items-center gap-5">
             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-              <VisualizePatient patient={patient} />
+              <VisualizeDoctor doctor={doctor} />
             </span>
 
-            <Tooltip content="Editar paciente">
-              <Link
-                href={`/patients/${patient.id}`}
-                className="text-lg text-default-400 cursor-pointer active:opacity-50"
-              >
-                <EditIcon />
-              </Link>
-            </Tooltip>
-
-            <DeletePatient patient={patient} />
+            <DeleteDoctor doctor={doctor} />
           </div>
         );
       default:
         return cellValue;
     }
   }, []);
-
   return (
     <Table
       aria-label="Example table with client side pagination"
@@ -122,8 +98,7 @@ export const TableListPatient = ({ data }: TableListPatientProps) => {
       <TableHeader className="bg-main-bg-darker">
         <TableColumn key="name">Nome</TableColumn>
         <TableColumn key="email">E-mail</TableColumn>
-        <TableColumn key="region">Região</TableColumn>
-        <TableColumn key="birth">Nascimento</TableColumn>
+        <TableColumn key="specialization">Especialização</TableColumn>
         <TableColumn key="actions">Ações</TableColumn>
       </TableHeader>
       <TableBody

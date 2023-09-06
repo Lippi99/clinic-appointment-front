@@ -93,6 +93,21 @@ export const VisualizeAppointment = ({ appointment }: AppointmentProps) => {
                   )}
                 />
               </div>
+              <div className="flex flex-col w-full">
+                <label className="text-lg text-default-400 mb-3">
+                  Horário da consulta
+                </label>
+
+                <input
+                  placeholder="Horário da consulta"
+                  className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
+                  type="text"
+                  id="timeSchedule"
+                  title="Horário"
+                  readOnly
+                  defaultValue={appointment.timeSchedule}
+                />
+              </div>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onClick={onClose}>

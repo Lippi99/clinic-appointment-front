@@ -1,4 +1,3 @@
-import { Patient, PatientData } from "@/app/models/patient";
 import {
   Pagination,
   Table,
@@ -7,13 +6,9 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  Tooltip,
 } from "@nextui-org/react";
 import React, { useMemo, useState } from "react";
 
-import Link from "next/link";
-
-import { EditIcon } from "../Icons/EditIcon";
 import { Especialization } from "@/app/models/especialization";
 import { formatDate } from "@/utils/date";
 import { VisualizeEspecialization } from "./visualize-especialization";
