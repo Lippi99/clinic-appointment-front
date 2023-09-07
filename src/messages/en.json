@@ -1,5 +1,10 @@
 {
   "Index": {
+    "translation": {
+      "pt": "Portuguese",
+      "en": "English"
+    },
+
     "login": {
       "email": "Type your e-mail",
       "password": "Type your password",

@@ -3,11 +3,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import NextLink from "next/link";
 import { useAdminAuth } from "../context/AdminAuth";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@nextui-org/react";
+import { TransLation } from "../components/Translation";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +42,9 @@ export default function Home() {
 
   return (
     <main className="h-screen bg-main-bg">
+      <div className="absolute right-10 top-10">
+        <TransLation />
+      </div>
       <div className="shadow-box-shadow-login bg-main-bg-darker max-w-lg w-full absolute top-1/2 left-1/2  transform -translate-x-1/2 -translate-y-1/2 rounded-2xl p-10">
         <h1 className="text-3xl text-white uppercase text-center mb-8">
           Login

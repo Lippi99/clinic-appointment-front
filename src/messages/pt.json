@@ -1,5 +1,9 @@
 {
   "Index": {
+    "translation": {
+      "pt": "Português",
+      "en": "Inglês"
+    },
     "login": {
       "email": "Digite seu e-mail",
       "password": "Digite sua senha",
