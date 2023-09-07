@@ -8,8 +8,12 @@ import {
 import { HiTranslate } from "react-icons/hi";
 import Link from "next-intl/link";
 import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
 
 export const TransLation = () => {
+  const path = usePathname();
+  const url = path.replace("pt/", "").replace("en/", "");
+
   const t = useTranslations("Index");
 
   return (
@@ -21,12 +25,20 @@ export const TransLation = () => {
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions">
         <DropdownItem key="en">
-          <Link className="block h-full w-full text-white" href="/" locale="en">
+          <Link
+            className="block h-full w-full text-white"
+            href={url}
+            locale="en"
+          >
             {t("translation.en")}
           </Link>
         </DropdownItem>
         <DropdownItem key="pt">
-          <Link className="block h-full w-full text-white" href="/" locale="pt">
+          <Link
+            className="block h-full w-full text-white"
+            href={url}
+            locale="pt"
+          >
             {t("translation.pt")}
           </Link>
         </DropdownItem>

@@ -1,3 +1,5 @@
+"use client";
+import { TransLation } from "../Translation";
 export const Header = () => {
   return (
     <>
@@ -5,6 +7,7 @@ export const Header = () => {
         <nav className="flex items-center justify-between h-20">
           <div></div>
           <div className="flex items-center">
+            <TransLation />
             <h1 className="text-white text-xl">Perfil</h1>
           </div>
         </nav>

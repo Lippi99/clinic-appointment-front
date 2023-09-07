@@ -10,10 +10,13 @@ import { GiSkills } from "react-icons/gi";
 import nookies from "nookies";
 import { usePathname, useRouter } from "next/navigation";
 import { Tooltip } from "@nextui-org/react";
+import { useTranslations } from "next-intl";
 
 export const Sidebar = () => {
   const path = usePathname();
   const Router = useRouter();
+
+  const t = useTranslations("Index");
 
   const logout = () => {
     nookies.destroy(null, "doceifancia.auth");
@@ -36,7 +39,7 @@ export const Sidebar = () => {
               AiOutlineUser
               className="inline-block text-3xl mr-4"
             />
-            <span>Pacientes</span>
+            <span>{t("sidebar.patients")}</span>
           </Link>
         </li>
         <li
@@ -52,7 +55,7 @@ export const Sidebar = () => {
               AiOutlineUser
               className="inline-block text-3xl mr-4"
             />
-            <span>Médicos</span>
+            <span>{t("sidebar.doctors")}</span>
           </Link>
         </li>
         <li
@@ -68,7 +71,7 @@ export const Sidebar = () => {
               AiOutlineUser
               className="inline-block text-3xl mr-4"
             />
-            <span>Consultas</span>
+            <span>{t("sidebar.appointments")}</span>
           </Link>
         </li>
         <li
@@ -81,15 +84,15 @@ export const Sidebar = () => {
             href="/especializations"
           >
             <GiSkills AiOutlineUser className="inline-block text-3xl mr-4" />
-            <span>Especializações</span>
+            <span>{t("sidebar.especialities")}</span>
           </Link>
         </li>
 
         <li>
-          <Tooltip content="Sair">
+          <Tooltip content={t("sidebar.logout")}>
             <button
               className="pt-4 pb-4 flex items-center justify-evenly w-full h-full outline-0 border-0 text-[#f31260]"
-              title="Sair"
+              title={t("sidebar.logout")}
               onClick={logout}
             >
               <AiOutlineLogout />

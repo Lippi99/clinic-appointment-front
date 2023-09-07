@@ -1,5 +1,13 @@
 {
   "Index": {
+    "sidebar": {
+      "patients": "Pacientes",
+      "doctors": "Médicos",
+      "appointments": "Consultas",
+      "especialities": "Especialidades",
+      "logout": "Sair"
+    },
+
     "translation": {
       "pt": "Português",
       "en": "Inglês"
