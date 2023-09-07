@@ -1,0 +1,16 @@
+{
+  "Index": {
+    "login": {
+      "email": "Digite seu e-mail",
+      "password": "Digite sua senha",
+      "submit": {
+        "text": "Entrar",
+        "loading": "Entrando..."
+      },
+      "error": {
+        "email": "E-mail é obrigatório",
+        "password": "A Senha deve ter no mínimo 6 caracteres"
+      }
+    }
+  }
+}

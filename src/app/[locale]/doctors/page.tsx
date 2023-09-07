@@ -2,10 +2,10 @@
 import { useQuery } from "@tanstack/react-query";
 import LayoutDoctors from "./layout";
 import { listDoctors } from "@/services/doctor";
-import { CreateDoctor } from "../components/Doctor/create-doctor";
+import { CreateDoctor } from "../../components/Doctor/create-doctor";
 import { Suspense, useState } from "react";
-import { TableListDoctors } from "../components/Doctor/table-list-doctors";
-import { Doctor } from "../models/doctor";
+import { TableListDoctors } from "../../components/Doctor/table-list-doctors";
+import { Doctor } from "../../models/doctor";
 import Loading from "./loading";
 import { useDebounce } from "@uidotdev/usehooks";
 export default function Page() {

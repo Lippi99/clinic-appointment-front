@@ -4,9 +4,9 @@ import LayoutHome from "./layout";
 
 import { useQuery } from "@tanstack/react-query";
 import { listPatient } from "@/services/patient";
-import CreatePatient from "../components/Patient/create-patient";
-import { PatientData } from "../models/patient";
-import { TableListPatient } from "../components/Patient/table-list-patient";
+import CreatePatient from "../../components/Patient/create-patient";
+import { PatientData } from "../../models/patient";
+import { TableListPatient } from "../../components/Patient/table-list-patient";
 
 import Loading from "./loading";
 import { useDebounce } from "@uidotdev/usehooks";

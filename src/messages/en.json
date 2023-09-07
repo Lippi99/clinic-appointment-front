@@ -1,0 +1,16 @@
+{
+  "Index": {
+    "login": {
+      "email": "Type your e-mail",
+      "password": "Type your password",
+      "submit": {
+        "text": "Sign in",
+        "loading": "Signing in..."
+      },
+      "error": {
+        "email": "Email is required",
+        "password": "Password must have at least 6 characters"
+      }
+    }
+  }
+}

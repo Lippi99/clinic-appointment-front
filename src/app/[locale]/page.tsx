@@ -3,19 +3,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-
 import NextLink from "next/link";
-import { useAdminAuth } from "./context/AdminAuth";
+import { useAdminAuth } from "../context/AdminAuth";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Button } from "@nextui-org/react";
 
-type LoginValidationSchema = z.infer<typeof loginSchema>;
-
-const loginSchema = z.object({
-  email: z.string().email("Informe seu e-mail"),
-  password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
-});
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations("Index");
+
+  const loginSchema = z.object({
+    email: z.string().email(t("login.error.email")),
+    password: z.string().min(6, t("login.error.password")),
+  });
+
+  type LoginValidationSchema = z.infer<typeof loginSchema>;
 
   const {
     register,
@@ -49,7 +52,7 @@ export default function Home() {
         >
           <div className="max-w-xs w-full mb-5">
             <input
-              placeholder="Digite seu E-mail"
+              placeholder={t("login.email")}
               className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
               type="email"
               id="name"
@@ -62,7 +65,7 @@ export default function Home() {
           </div>
           <div className="max-w-xs w-full mb-5">
             <input
-              placeholder="Digite sua senha"
+              placeholder={t("login.password")}
               className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
               type="password"
               id="password"
@@ -74,25 +77,14 @@ export default function Home() {
             )}
           </div>
 
-          <button
+          <Button
             disabled={isLoading}
             className="mt-5 bg-green-darker text-white p-3 w-full max-w-[150px] rounded-md"
             type="submit"
           >
-            {isLoading ? "Entrando..." : "Entrar"}
-          </button>
+            {isLoading ? t("login.submit.loading") : t("login.submit.text")}
+          </Button>
         </form>
-        <div className="text-center mt-5">
-          <span className="text-white">
-            Ou registre-se, clicando aqui
-            <NextLink
-              href="/signup"
-              className="ml-2 text-green-light underline"
-            >
-              aqui
-            </NextLink>
-          </span>
-        </div>
       </div>
       <ToastAdminAuth />
     </main>

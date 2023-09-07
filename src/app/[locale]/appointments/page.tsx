@@ -2,9 +2,9 @@
 import { useQuery } from "@tanstack/react-query";
 import LayoutAppointments from "./layout";
 import { listAppointments } from "@/services/appointment";
-import { TableListAppointments } from "../components/Appointment/table-list-appointments";
-import { Appointment } from "../models/appointment";
-import CreateAppointment from "../components/Appointment/create-appointment";
+import { TableListAppointments } from "../../components/Appointment/table-list-appointments";
+import { Appointment } from "../../models/appointment";
+import CreateAppointment from "../../components/Appointment/create-appointment";
 import { useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import Loading from "./loading";

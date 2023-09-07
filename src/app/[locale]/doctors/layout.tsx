@@ -1,13 +1,17 @@
-import { Header } from "../components/Header";
-import { ReactToast } from "../components/ReactToast";
-import { Sidebar } from "../components/Sidebar";
+import { Header } from "../../components/Header";
+import { ReactToast } from "../../components/ReactToast";
+import { Sidebar } from "../../components/Sidebar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pacientes",
-  description: "cadastro de pacientes",
+  title: "Médicos",
+  description: "Cadastrar médicos",
 };
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function LayoutDoctors({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
       <Header />

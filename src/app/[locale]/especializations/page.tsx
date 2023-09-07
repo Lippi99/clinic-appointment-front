@@ -1,12 +1,12 @@
 "use client";
 import { Suspense } from "react";
-import CreateEspecialization from "../components//Especialization/create-especialization";
+import CreateEspecialization from "../../components//Especialization/create-especialization";
 import LayoutSpecializations from "./layout";
 import Loading from "./loading";
-import { TableListEspecialization } from "../components/Especialization/table-list-especialization";
+import { TableListEspecialization } from "../../components/Especialization/table-list-especialization";
 import { useQuery } from "@tanstack/react-query";
 import { listEspecializations } from "@/services/especialization";
-import { Especialization } from "../models/especialization";
+import { Especialization } from "../../models/especialization";
 
 export default function Page() {
   const { data } = useQuery({
