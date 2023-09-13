@@ -10,10 +10,9 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { EyeIcon } from "../Icons/ViewIcon";
-import { format } from "date-fns";
-import ReactDatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
+
 import { Especialization } from "@/app/models/especialization";
+import { useTranslations } from "next-intl";
 
 interface EspecializationProps {
   especialization: Especialization;
@@ -23,6 +22,8 @@ export const VisualizeEspecialization = ({
   especialization,
 }: EspecializationProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const t = useTranslations("Index");
+
   return (
     <>
       <Tooltip content="Visualizar consulta">
@@ -45,14 +46,14 @@ export const VisualizeEspecialization = ({
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Especialização
+                {t("especializations.visualizeEspecialization.title")}
               </span>
             </ModalHeader>
 
             <ModalBody>
               <div className="flex flex-col w-full">
                 <label className="text-lg text-default-400 mb-3">
-                  Nome da especialização
+                  {t("especializations.visualizeEspecialization.name")}
                 </label>
                 <input
                   placeholder="Nome"
@@ -67,7 +68,7 @@ export const VisualizeEspecialization = ({
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onClick={onClose}>
-                Fechar
+                {t("especializations.actions.close")}
               </Button>
             </ModalFooter>
           </>

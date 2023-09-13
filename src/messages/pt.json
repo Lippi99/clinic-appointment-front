@@ -1,5 +1,6 @@
 {
   "Index": {
+    "loading": "Carregando...",
     "sidebar": {
       "patients": "Pacientes",
       "doctors": "Médicos",
@@ -86,7 +87,12 @@
         "region": "Região",
         "birth": "Data de nascimento",
         "actions": "Ações",
-        "empty": "Nenhum paciente cadastrado"
+        "empty": "Nenhum paciente cadastrado",
+        "tooltips": {
+          "visualize": "Visualizar paciente",
+          "edit": "Editar paciente",
+          "delete": "Deletar paciente"
+        }
       }
     },
 
@@ -146,6 +152,141 @@
           "visualize": "Visualizar médico",
           "edit": "Editar médico",
           "delete": "Deletar médico"
+        }
+      }
+    },
+
+    "appointments": {
+      "title": "Consultas",
+      "btnTitle": "Cadastrar",
+      "update": "Atualizar consulta",
+      "updating": "Atualizando consulta...",
+      "searchAppointment": "Buscar consulta",
+      "actions": {
+        "cancel": "Cancelar",
+        "back": "Voltar",
+        "update": "Atualizar",
+        "close": "Fechar",
+        "confirm": "Confirmar"
+      },
+
+      "createAppointment": {
+        "errors": {
+          "patientName": "O nome do paciente deve ser informado",
+          "doctorName": "O nome do médico deve ser informado",
+          "appointment": "A data da consulta deve ser informada",
+          "time": "O horário da consulta deve ser informado"
+        },
+        "toast": {
+          "success": "Consulta cadastrada com sucesso!",
+          "error": "Erro ao cadastrar a consulta!",
+          "appointmentExists": "Consulta já cadastrada!"
+        },
+        "title": "Cadastrar consulta",
+        "doctorName": "Nome do médico",
+        "patientName": "Nome do paciente",
+        "selectDoctor": "Selecione o médico",
+        "selectPatient": "Selecione o paciente",
+        "appointment": "Data da consulta",
+        "time": "Horário da consulta",
+        "close": "Fechar",
+        "submit": {
+          "text": "Cadastrar",
+          "loading": "Cadastrando..."
+        }
+      },
+      "visualizeAppointment": {
+        "title": "Consulta"
+      },
+      "updateAppointment": {
+        "title": "Atualizar Consulta",
+        "doctorName": "Nome do médico",
+        "update": "Atualizar consulta",
+        "updating": "Atualizando consulta...",
+        "selectDoctor": "Select doctor",
+        "selectPatient": "Select patient",
+        "patientName": "Nome do paciente",
+        "appointment": "Data da consulta",
+        "time": "Horário da consulta",
+        "errors": {
+          "patient": "O nome do paciente deve ser informado",
+          "doctor": "O nome do médico deve ser informado",
+          "minDoctor": "O nome do médico deve ter no mínimo 5 carácteres",
+          "appointment": "A data da consulta deve ser informada",
+          "time": "O horário da consulta deve ser informado"
+        },
+        "toast": {
+          "success": "Consulta atualizada com sucesso!",
+          "error": "Erro ao atualizar a consulta!",
+          "errorConflict": "Já existe uma consulta para esse médico e paciente nesse horário!"
+        }
+      },
+
+      "deleteAppointment": {
+        "title": "Deletar consulta",
+        "message": "Deseja realmente excluir a consulta",
+        "delete": "Deletar consulta",
+        "deleting": "Deletando consulta..."
+      },
+      "table": {
+        "doctorName": "Nome do médico",
+        "especialization": "Especialização do médico",
+        "patientName": "Nome do paciente",
+        "appointment": "Data da consulta",
+        "time": "Horário da consulta",
+        "actions": "Ações",
+        "empty": "Nenhuma consulta cadastrada",
+        "tooltips": {
+          "visualize": "Visualizar consulta",
+          "edit": "Editar consulta",
+          "delete": "Deletar consulta"
+        }
+      }
+    },
+    "especializations": {
+      "title": "Especialzations",
+      "btnTitle": "Cadastrar",
+      "submit": "Cadastrar",
+      "submiting": "Cadastrando...",
+      "actions": {
+        "cancel": "Cancelar",
+        "close": "Fechar",
+        "back": "Voltar",
+        "update": "Atualizar",
+        "confirm": "Confirmar"
+      },
+      "createEspecialization": {
+        "title": "Cadastrar especialização",
+        "name": "Nome da especialização",
+        "errors": {
+          "name": "O nome da especialização deve ser informado",
+          "nameShort": "O nome da especialização deve ter no mínimo 3 carácteres",
+          "nameLong": "O nome da especialização deve ter no máximo 225 carácteres"
+        }
+      },
+      "visualizeEspecialization": {
+        "title": "Especialização",
+        "name": "Nome da especialização"
+      },
+
+      "deleteEspecialization": {
+        "title": "Deletar especialização",
+        "message": "Deseja realmente excluir a especialização",
+        "deleting": "Deletando especialização...",
+        "toast": {
+          "success": "Especialização deletada com sucesso!",
+          "error": "Erro ao deletar a especialização!"
+        }
+      },
+      "table": {
+        "name": "Nome",
+        "created": "Criado em",
+        "actions": "Ações",
+        "empty": "Nenhuma especialização cadastrada",
+        "tooltips": {
+          "visualize": "Visualizar especialização",
+          "edit": "Editar especialização",
+          "delete": "Deletar especialização"
         }
       }
     }

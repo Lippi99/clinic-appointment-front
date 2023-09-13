@@ -1,5 +1,6 @@
 {
   "Index": {
+    "loading": "Loading...",
     "sidebar": {
       "patients": "Patients",
       "doctors": "Doctors",
@@ -158,6 +159,145 @@
           "visualize": "Visualize doctor",
           "edit": "Edit doctor",
           "delete": "Delete doctor"
+        }
+      }
+    },
+
+    "appointments": {
+      "title": "Appointments",
+      "btnTitle": "Register",
+      "searchAppointment": "Search appointment",
+      "actions": {
+        "cancel": "Cancel",
+        "back": "Back",
+        "update": "Update",
+        "close": "Close",
+        "confirm": "Confirm"
+      },
+
+      "createAppointment": {
+        "errors": {
+          "patientName": "Patient name must be informed",
+          "doctorName": "Doctor name must be informed",
+          "appointment": "Appointment date must be informed",
+          "appointmentExists": "Appointment already exists!",
+          "time": "Time must be informed"
+        },
+        "toast": {
+          "success": "Appointment registered successfully!",
+          "error": "Error registering appointment!",
+          "appointmentExists": "Appointment already exists!"
+        },
+        "title": "Create appointment",
+        "doctorName": "Doctor name",
+        "selectDoctor": "Select doctor",
+        "selectPatient": "Select patient",
+        "patientName": "Patient name",
+        "appointment": "Appointment date",
+        "time": "Appointment time",
+        "close": "Close",
+        "submit": {
+          "text": "Submit",
+          "loading": "Submiting..."
+        }
+      },
+
+      "visualizeAppointment": {
+        "title": "Appointment"
+      },
+      "updateAppointment": {
+        "title": "Update appointment",
+        "update": "Update appointment",
+        "updating": "Updating appointment...",
+        "doctorName": "Doctor name",
+        "selectDoctor": "Select doctor",
+        "selectPatient": "Select patient",
+        "patientName": "Patient name",
+        "appointment": "Appointment date",
+        "time": "Appointment time",
+        "errors": {
+          "patient": "Patient name must be informed",
+          "doctor": "Doctor name must be informed",
+          "minDoctor": "Doctor name must have at least 5 characters",
+          "appointment": "Appointment date must be informed",
+          "time": "Time must be informed"
+        },
+        "toast": {
+          "success": "Appointment updated successfully!",
+          "error": "Error updating appointment!",
+          "errorConflict": "Error updating appointment! Appointment already exists!"
+        }
+      },
+
+      "deleteAppointment": {
+        "title": "Delete appointment",
+        "message": "Are you sure you want to delete the appointment",
+        "delete": "Delete appointment",
+        "deleting": "Deleting appointment...",
+        "toast": {
+          "success": "Appointment deleted successfully!",
+          "error": "Error deleting appointment!"
+        }
+      },
+      "table": {
+        "doctorName": "Doctor name",
+        "especialization": "Especialization",
+        "patientName": "Patient name",
+        "appointment": "Appointment date",
+        "time": "Appointment time",
+        "actions": "Actions",
+        "empty": "No appointments found",
+        "tooltips": {
+          "visualize": "Visualize appointment",
+          "edit": "Edit appointment",
+          "delete": "Delete appointment"
+        }
+      }
+    },
+
+    "especializations": {
+      "title": "Especializations",
+      "btnTitle": "Register",
+      "submit": "Submit",
+      "submiting": "Submiting...",
+      "actions": {
+        "cancel": "Cancel",
+        "back": "Back",
+        "update": "Update",
+        "close": "Close",
+        "confirm": "Confirm"
+      },
+      "createEspecialization": {
+        "title": "Create especialization",
+        "name": "Especialization name",
+        "errors": {
+          "name": "Especialization name must be informed",
+          "nameShort": "Especialization name must have at least 3 characters",
+          "nameLong": "Especialization name must have at most 225 characters"
+        }
+      },
+      "visualizeEspecialization": {
+        "title": "Especialization",
+        "name": "Especialization name"
+      },
+      "deleteEspecialization": {
+        "title": "Delete especialization",
+        "message": "Are you sure you want to delete the especialization",
+        "deleting": "Deleting especialization...",
+        "toast": {
+          "success": "Especialization deleted successfully!",
+          "error": "Error deleting especialization!"
+        }
+      },
+      "table": {
+        "name": "Name",
+        "created": "Created at",
+        "actions": "Actions",
+        "empty": "No especializations found",
+        "tooltips": {
+          "visualize": "Visualize especialization",
+          "edit": "Edit especialization",
+          "delete": "Delete especialization"
         }
       }
     }

@@ -14,31 +14,34 @@ import { UpdateAppointment } from "@/app/models/appointment";
 import Loading from "../loading";
 import axios, { AxiosError } from "axios";
 import ReactDatePicker from "react-datepicker";
-
-const registerPatientSchema = z.object({
-  patientId: z
-    .string({
-      required_error: "O nome do paciente deve ser informado",
-    })
-    .nonempty("O nome do paciente deve ser informado"),
-  doctorId: z
-    .string({
-      required_error: "O nome médico deve ser informado",
-    })
-    .min(10, "O nome médico deve ser informado")
-    .nonempty("O nome médico deve ser informado"),
-  dateSchedule: z
-    .string({
-      required_error: "A data de consulta deve ser informada",
-    })
-    .nonempty("A data de consulta deve ser informada"),
-  timeSchedule: z.string({
-    required_error: "A hora de consulta deve ser informada",
-  }),
-});
+import { useTranslations } from "next-intl";
 
 export default function Page({ params }: { params: { id: string } }) {
   const queryClient = useQueryClient();
+
+  const t = useTranslations("Index");
+
+  const registerPatientSchema = z.object({
+    patientId: z
+      .string({
+        required_error: t("appointments.updateAppointment.errors.patient"),
+      })
+      .nonempty(t("appointments.updateAppointment.errors.patient")),
+    doctorId: z
+      .string({
+        required_error: t("appointments.updateAppointment.errors.doctor"),
+      })
+      .min(5, t("appointments.updateAppointment.errors.minDoctor"))
+      .nonempty(t("appointments.updateAppointment.errors.doctor")),
+    dateSchedule: z
+      .string({
+        required_error: t("appointments.updateAppointment.errors.appointment"),
+      })
+      .nonempty(t("appointments.updateAppointment.errors.appointment")),
+    timeSchedule: z.string({
+      required_error: t("appointments.updateAppointment.errors.time"),
+    }),
+  });
 
   const { data: pacients, isLoading } = useQuery({
     queryFn: () => listPatient(),
@@ -72,14 +75,16 @@ export default function Page({ params }: { params: { id: string } }) {
         updateAppointment(values, params.id),
       onSuccess: () => {
         queryClient.invalidateQueries(["listAppointmentById"]);
-        toast.success("Consulta atualizada com sucesso!");
+        toast.success(t("appointments.updateAppointment.toast.success"));
       },
       onError: (error: Error | AxiosError) => {
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 409) {
-            toast.error("Já existe uma consulta nesse horário");
+            toast.error(
+              t("appointments.updateAppointment.toast.errorConflict")
+            );
           } else {
-            toast.error("Houve um erro ao atualizar a consulta");
+            toast.error(t("appointments.updateAppointment.toast.error"));
           }
         }
       },
@@ -100,7 +105,9 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <LayoutAppointments>
       <header className="flex items-center mt-4">
-        <h1 className="text-white text-3xl">Atualizar consulta</h1>
+        <h1 className="text-white text-3xl">
+          {t("appointments.updateAppointment.title")}
+        </h1>
       </header>
       <form
         onSubmit={handleSubmit(handleUpdateAppointment)}
@@ -108,14 +115,14 @@ export default function Page({ params }: { params: { id: string } }) {
       >
         <div className="flex flex-col w-full mb-5">
           <label className="text-lg text-default-400 mb-3">
-            Nome do paciente
+            {t("appointments.updateAppointment.patientName")}
           </label>
 
           <select
             id="patientId"
-            title="Nome do paciente"
+            title={t("appointments.updateAppointment.patientName")}
             className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-            placeholder="Nome do paciente"
+            placeholder={t("appointments.updateAppointment.patientName")}
             {...register("patientId")}
             defaultValue={appointment?.patientId}
           >
@@ -136,13 +143,13 @@ export default function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="flex flex-col w-full mb-5">
           <label className="text-lg text-default-400 mb-3">
-            Nome do médico
+            {t("appointments.updateAppointment.doctorName")}
           </label>
           <select
             id="doctorId"
-            title="Nome do médico"
+            title={t("appointments.updateAppointment.doctorName")}
             className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-            placeholder="Nome do médico"
+            placeholder={t("appointments.updateAppointment.doctorName")}
             {...register("doctorId")}
             defaultValue={appointment?.doctorId}
           >
@@ -164,7 +171,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
         <div className="flex flex-col w-full">
           <label className="text-lg text-default-400 mb-3">
-            Data da consulta
+            {t("appointments.updateAppointment.appointment")}
           </label>
 
           <Controller
@@ -191,7 +198,7 @@ export default function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="flex flex-col w-full">
           <label className="text-lg text-default-400 mb-3">
-            Hora da consulta
+            {t("appointments.updateAppointment.time")}
           </label>
           <input
             placeholder="Consulta"
@@ -215,7 +222,7 @@ export default function Page({ params }: { params: { id: string } }) {
             type="button"
           >
             <Link className="w-full" href="/appointments">
-              Voltar
+              {t("appointments.actions.back")}
             </Link>
           </Button>
           <Button
@@ -224,7 +231,9 @@ export default function Page({ params }: { params: { id: string } }) {
             type="submit"
             color="primary"
           >
-            {isUpdating ? "Atualizando..." : "Atualizar"}
+            {isUpdating
+              ? t("appointments.updateAppointment.updating")
+              : t("appointments.updateAppointment.update")}
           </Button>
         </div>
       </form>

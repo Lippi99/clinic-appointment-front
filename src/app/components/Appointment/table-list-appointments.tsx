@@ -15,6 +15,7 @@ import { VisualizeAppointment } from "./visualize-appointment";
 import { EditIcon } from "../Icons/EditIcon";
 import { DeleteAppointment } from "./delete-appointment";
 import { formatDate } from "@/utils/date";
+import { useTranslations } from "next-intl";
 
 interface TableListAppointmentsProps {
   data: Appointment[];
@@ -22,6 +23,8 @@ interface TableListAppointmentsProps {
 
 export const TableListAppointments = ({ data }: TableListAppointmentsProps) => {
   const [page, setPage] = useState(1);
+
+  const t = useTranslations("Index");
 
   const rowsPerPage = 10;
   const items = useMemo(() => {
@@ -87,7 +90,7 @@ export const TableListAppointments = ({ data }: TableListAppointmentsProps) => {
                   appointment={appointment as Appointment}
                 />
               </span>
-              <Tooltip content="Editar consulta">
+              <Tooltip content={t("appointments.table.tooltips.edit")}>
                 <Link
                   href={`/appointments/${appointment.id}`}
                   className="text-lg text-default-400 cursor-pointer active:opacity-50"
@@ -130,16 +133,28 @@ export const TableListAppointments = ({ data }: TableListAppointmentsProps) => {
       }}
     >
       <TableHeader className="bg-main-bg-darker">
-        <TableColumn key="doctorName">Nome do médico</TableColumn>
-        <TableColumn key="specialization">Especialização</TableColumn>
-        <TableColumn key="patientName">Nome do paciente</TableColumn>
-        <TableColumn key="dateSchedule">Data da consulta</TableColumn>
-        <TableColumn key="timeSchedule">Hora da consulta</TableColumn>
-        <TableColumn key="actions">Ações</TableColumn>
+        <TableColumn key="doctorName">
+          {t("appointments.table.doctorName")}
+        </TableColumn>
+        <TableColumn key="specialization">
+          {t("appointments.table.especialization")}
+        </TableColumn>
+        <TableColumn key="patientName">
+          {t("appointments.table.patientName")}
+        </TableColumn>
+        <TableColumn key="dateSchedule">
+          {t("appointments.table.appointment")}
+        </TableColumn>
+        <TableColumn key="timeSchedule">
+          {t("appointments.table.time")}
+        </TableColumn>
+        <TableColumn key="actions">
+          {t("appointments.table.actions")}
+        </TableColumn>
       </TableHeader>
       <TableBody
         emptyContent={
-          <span className="text-white">Nenhum dado encontrado</span>
+          <span className="text-white">{t("appointments.table.empty")}</span>
         }
         className="bg-main-bg-darker"
         items={items || []}

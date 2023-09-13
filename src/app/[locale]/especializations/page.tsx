@@ -7,8 +7,10 @@ import { TableListEspecialization } from "../../components/Especialization/table
 import { useQuery } from "@tanstack/react-query";
 import { listEspecializations } from "@/services/especialization";
 import { Especialization } from "../../models/especialization";
+import { useTranslations } from "next-intl";
 
 export default function Page() {
+  const t = useTranslations("Index");
   const { data } = useQuery({
     queryKey: ["listEspecializations"],
     queryFn: listEspecializations,
@@ -18,7 +20,7 @@ export default function Page() {
   return (
     <LayoutSpecializations>
       <header className="flex items-center mt-4">
-        <h1 className="text-white text-3xl">Especializações</h1>
+        <h1 className="text-white text-3xl">{t("especializations.title")}</h1>
         <CreateEspecialization />
       </header>
 

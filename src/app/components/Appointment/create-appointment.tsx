@@ -19,31 +19,36 @@ import { CreateAppointment } from "@/app/models/appointment";
 import { createAppointment } from "@/services/appointment";
 import ReactDatePicker from "react-datepicker";
 import { AxiosError } from "axios";
-
-const registerPatientSchema = z.object({
-  patientId: z
-    .string({
-      required_error: "O nome do paciente deve ser informado",
-    })
-    .nonempty("O nome do paciente deve ser informado"),
-  doctorId: z
-    .string({
-      required_error: "O nome médico deve ser informado",
-    })
-    .min(10, "O nome médico deve ser informado")
-    .nonempty("O nome médico deve ser informado"),
-  dateSchedule: z
-    .string({
-      required_error: "A data de consulta deve ser informada",
-    })
-    .nonempty("A data de consulta deve ser informada"),
-  timeSchedule: z.string({
-    required_error: "A hora de consulta deve ser informada",
-  }),
-});
+import { useTranslations } from "next-intl";
 
 export default function CreateAppointment() {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const t = useTranslations("Index");
+
+  const registerPatientSchema = z.object({
+    patientId: z
+      .string({
+        required_error: t("appointments.createAppointment.errors.patientName"),
+      })
+      .nonempty(t("appointments.createAppointment.errors.patientName")),
+    doctorId: z
+      .string({
+        required_error: t("appointments.createAppointment.errors.doctorName"),
+      })
+
+      .nonempty(t("appointments.createAppointment.errors.doctorName")),
+    dateSchedule: z
+      .string({
+        required_error: t("appointments.createAppointment.errors.appointment"),
+      })
+      .nonempty(t("appointments.createAppointment.errors.appointment")),
+    timeSchedule: z
+      .string({
+        required_error: t("appointments.createAppointment.errors.time"),
+      })
+      .nonempty(t("appointments.createAppointment.errors.time")),
+  });
+
   const {
     control,
     register,
@@ -74,13 +79,15 @@ export default function CreateAppointment() {
         queryClient.invalidateQueries(["listAppointments"]);
         reset();
         onClose();
-        toast.success("Consulta criada com sucesso!");
+        toast.success(t("appointments.createAppointment.toast.success"));
       },
       onError: (error) => {
         if ((error as AxiosError).response?.status === 409) {
-          toast.error("Já existe uma consulta cadastrada para este horário");
+          toast.error(
+            t("appointments.createAppointment.toast.appointmentExists")
+          );
         } else {
-          toast.error("Houve um erro ao cadastrar a consulta", {
+          toast.error(t("appointments.createAppointment.toast.appointment"), {
             delay: 10,
           });
         }
@@ -100,7 +107,7 @@ export default function CreateAppointment() {
         className="bg-main-bg-darker rounded-full text-lg max-w-[20rem] w-full p-3 text-white cursor-pointer ml-5"
         onPress={onOpen}
       >
-        Cadastrar
+        {t("appointments.btnTitle")}
       </Button>
       <Modal
         isOpen={isOpen}
@@ -112,23 +119,23 @@ export default function CreateAppointment() {
         <ModalContent>
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Cadastrar consulta
+              {t("appointments.createAppointment.title")}
             </ModalHeader>
             <form onSubmit={handleSubmit(handleRegisterAppoitment)}>
               <ModalBody>
                 <div className="flex flex-col w-full mb-5">
                   <label className="text-lg text-default-400 mb-3">
-                    Nome do paciente
+                    {t("appointments.createAppointment.patientName")}
                   </label>
                   <select
                     id="patientId"
-                    title="Id do paciente"
+                    title={t("appointments.createAppointment.patientName")}
                     className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                     placeholder="Nome do paciente"
                     {...register("patientId")}
                   >
                     <option value="" disabled selected>
-                      Selecione um paciente
+                      {t("appointments.createAppointment.selectPatient")}
                     </option>
                     {data?.patients?.map((pacient) => (
                       <option key={pacient.id} value={pacient.id}>
@@ -144,17 +151,17 @@ export default function CreateAppointment() {
                 </div>
                 <div className="flex flex-col w-full mb-5">
                   <label className="text-lg text-default-400 mb-3">
-                    Nome do médico
+                    {t("appointments.createAppointment.doctorName")}
                   </label>
                   <select
                     id="doctorId"
-                    title="Nome do médico"
+                    title={t("appointments.createAppointment.doctorName")}
                     className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                    placeholder="Nome do médico"
+                    placeholder={t("appointments.createAppointment.doctorName")}
                     {...register("doctorId")}
                   >
                     <option value="" disabled selected>
-                      Selecione um médico
+                      {t("appointments.createAppointment.selectDoctor")}
                     </option>
                     {doctors?.map((doctor) => (
                       <option
@@ -175,7 +182,7 @@ export default function CreateAppointment() {
 
                 <div className="flex flex-col w-full">
                   <label className="text-lg text-default-400 mb-3">
-                    Data da consulta
+                    {t("appointments.createAppointment.appointment")}
                   </label>
 
                   <Controller
@@ -184,7 +191,9 @@ export default function CreateAppointment() {
                     render={({ field }) => (
                       <ReactDatePicker
                         className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                        placeholderText="Consulta"
+                        placeholderText={t(
+                          "appointments.createAppointment.appointment"
+                        )}
                         onChange={(date) => field.onChange(date?.toISOString())}
                         selected={field.value ? new Date(field.value) : null}
                         dateFormat="dd/MM/yyyy"
@@ -201,10 +210,10 @@ export default function CreateAppointment() {
                 </div>
                 <div className="flex flex-col w-full">
                   <label className="text-lg text-default-400 mb-3">
-                    Hora da consulta
+                    {t("appointments.createAppointment.time")}
                   </label>
                   <input
-                    placeholder="Consulta"
+                    placeholder={t("appointments.createAppointment.time")}
                     className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                     type="time"
                     id="timeSchedule"
@@ -220,10 +229,12 @@ export default function CreateAppointment() {
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onClick={onClose}>
-                  Fechar
+                  {t("appointments.actions.close")}
                 </Button>
                 <Button disabled={isLoading} type="submit" color="primary">
-                  {isLoading ? "Cadastrando..." : "Cadastrar"}
+                  {isLoading
+                    ? t("appointments.createAppointment.submit.loading")
+                    : t("appointments.createAppointment.submit.text")}
                 </Button>
               </ModalFooter>
             </form>

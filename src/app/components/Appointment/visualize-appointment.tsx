@@ -11,8 +11,7 @@ import {
 } from "@nextui-org/react";
 import { EyeIcon } from "../Icons/ViewIcon";
 import { format } from "date-fns";
-import ReactDatePicker from "react-datepicker";
-import { Controller } from "react-hook-form";
+import { useTranslations } from "next-intl";
 
 interface AppointmentProps {
   appointment: Appointment;
@@ -20,9 +19,11 @@ interface AppointmentProps {
 
 export const VisualizeAppointment = ({ appointment }: AppointmentProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const t = useTranslations("Index");
+
   return (
     <>
-      <Tooltip content="Visualizar consulta">
+      <Tooltip content={t("appointments.table.tooltips.visualize")}>
         <span
           onClick={onOpen}
           className="text-lg  text-default-400 cursor-pointer active:opacity-50"
@@ -42,17 +43,17 @@ export const VisualizeAppointment = ({ appointment }: AppointmentProps) => {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Consulta
+                {t("appointments.visualizeAppointment.title")}
               </span>
             </ModalHeader>
 
             <ModalBody>
               <div className="flex flex-col w-full">
                 <label className="text-lg text-default-400 mb-3">
-                  Nome do paciente
+                  {t("appointments.createAppointment.patientName")}
                 </label>
                 <input
-                  placeholder="Nome"
+                  placeholder={t("appointments.createAppointment.patientName")}
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                   type="text"
                   id="name"
@@ -63,25 +64,25 @@ export const VisualizeAppointment = ({ appointment }: AppointmentProps) => {
               </div>
               <div className="flex flex-col w-full">
                 <label className="text-lg text-default-400 mb-3">
-                  Nome do médico
+                  {t("appointments.createAppointment.doctorName")}
                 </label>
                 <input
-                  placeholder="Nome do doutor"
+                  placeholder={t("appointments.createAppointment.doctorName")}
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                   type="text"
                   id="doctorName"
-                  title="Nome do doutor"
+                  title={t("appointments.createAppointment.doctorName")}
                   readOnly
                   defaultValue={appointment.doctor.name}
                 />
               </div>
               <div className="flex flex-col w-full">
                 <label className="text-lg text-default-400 mb-3">
-                  Data da consulta
+                  {t("appointments.createAppointment.appointment")}
                 </label>
 
                 <input
-                  placeholder="E-mail"
+                  placeholder="DD/MM/YYYY"
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                   type="text"
                   id="dateSchedule"
@@ -95,15 +96,15 @@ export const VisualizeAppointment = ({ appointment }: AppointmentProps) => {
               </div>
               <div className="flex flex-col w-full">
                 <label className="text-lg text-default-400 mb-3">
-                  Horário da consulta
+                  {t("appointments.createAppointment.time")}
                 </label>
 
                 <input
-                  placeholder="Horário da consulta"
+                  placeholder={t("appointments.createAppointment.time")}
                   className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                   type="text"
                   id="timeSchedule"
-                  title="Horário"
+                  title={t("appointments.createAppointment.time")}
                   readOnly
                   defaultValue={appointment.timeSchedule}
                 />
@@ -111,7 +112,7 @@ export const VisualizeAppointment = ({ appointment }: AppointmentProps) => {
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onClick={onClose}>
-                Fechar
+                {t("appointments.actions.close")}
               </Button>
             </ModalFooter>
           </>

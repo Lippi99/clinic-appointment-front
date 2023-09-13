@@ -13,6 +13,7 @@ import { Especialization } from "@/app/models/especialization";
 import { formatDate } from "@/utils/date";
 import { VisualizeEspecialization } from "./visualize-especialization";
 import { DeleteEspecialization } from "./delete-especialization";
+import { useTranslations } from "next-intl";
 
 interface TableListEspecialization {
   data: Especialization[];
@@ -21,6 +22,8 @@ interface TableListEspecialization {
 export const TableListEspecialization = ({
   data,
 }: TableListEspecialization) => {
+  const t = useTranslations("Index");
+
   const [page, setPage] = useState(1);
 
   const rowsPerPage = 10;
@@ -96,13 +99,19 @@ export const TableListEspecialization = ({
       }}
     >
       <TableHeader className="bg-main-bg-darker">
-        <TableColumn key="name">Nome</TableColumn>
-        <TableColumn key="createdAt">Criado em</TableColumn>
-        <TableColumn key="actions">Ações</TableColumn>
+        <TableColumn key="name">{t("especializations.table.name")}</TableColumn>
+        <TableColumn key="createdAt">
+          {t("especializations.table.created")}
+        </TableColumn>
+        <TableColumn key="actions">
+          {t("especializations.table.actions")}
+        </TableColumn>
       </TableHeader>
       <TableBody
         emptyContent={
-          <span className="text-white">Nenhum dado encontrado</span>
+          <span className="text-white">
+            {t("especializations.table.empty")}
+          </span>
         }
         className="bg-main-bg-darker"
         items={items || []}

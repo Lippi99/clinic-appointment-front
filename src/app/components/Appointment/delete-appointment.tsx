@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteAppointment } from "@/services/appointment";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 interface AppointmentProps {
   appointment: Appointment;
@@ -21,6 +22,8 @@ interface AppointmentProps {
 
 export const DeleteAppointment = ({ appointment }: AppointmentProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+
+  const t = useTranslations("Index");
 
   const queryClient = useQueryClient();
 
@@ -30,11 +33,11 @@ export const DeleteAppointment = ({ appointment }: AppointmentProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries(["listAppointments"]);
       onClose();
-      toast.success("Consulta deletada com sucesso!");
+      toast.success(t("appointments.deleteAppointment.toast.success"));
     },
     onError: (error: Error | AxiosError) => {
       if (axios.isAxiosError(error)) {
-        toast.error("Erro ao deletar a consulta");
+        toast.error(t("appointments.deleteAppointment.toast.error"));
         return;
       }
     },
@@ -42,7 +45,7 @@ export const DeleteAppointment = ({ appointment }: AppointmentProps) => {
 
   return (
     <>
-      <Tooltip content="Deletar consulta">
+      <Tooltip content={t("appointments.table.tooltips.delete")}>
         <span
           onClick={onOpen}
           className="text-lg text-danger cursor-pointer active:opacity-50"
@@ -62,14 +65,14 @@ export const DeleteAppointment = ({ appointment }: AppointmentProps) => {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Deletar consulta
+                {t("appointments.deleteAppointment.title")}
               </span>
             </ModalHeader>
 
             <ModalBody>
               <span className="text-lg text-white cursor-pointer active:opacity-50">
-                Deseja deletar a consulta do paciente {appointment.patient.name}
-                ?
+                {t("appointments.deleteAppointment.message")}{" "}
+                {appointment.patient.name}?
               </span>
             </ModalBody>
             <ModalFooter>
@@ -78,14 +81,16 @@ export const DeleteAppointment = ({ appointment }: AppointmentProps) => {
                 variant="flat"
                 onClick={onClose}
               >
-                Cancelar
+                {t("appointments.actions.cancel")}
               </Button>
               <Button
                 color="danger"
                 variant="flat"
                 onClick={() => mutateAsync()}
               >
-                {isLoading ? "Deletando..." : "Confirmar"}
+                {isLoading
+                  ? t("appointments.deleteAppointment.deleting")
+                  : t("appointments.deleteAppointment.delete")}
               </Button>
             </ModalFooter>
           </>

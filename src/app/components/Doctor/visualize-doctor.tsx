@@ -22,7 +22,7 @@ export const VisualizeDoctor = ({ doctor }: DoctorProps) => {
 
   return (
     <>
-      <Tooltip content="Visualizar paciente">
+      <Tooltip content={t("doctors.table.tooltips.visualize")}>
         <span
           onClick={onOpen}
           className="text-lg  text-default-400 cursor-pointer active:opacity-50"

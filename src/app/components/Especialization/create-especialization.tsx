@@ -13,22 +13,24 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { createAppointment } from "@/services/appointment";
 import { AxiosError } from "axios";
 import { CreateEspecialization } from "@/app/models/especialization";
 import { createEspecialization } from "@/services/especialization";
-
-const registerEspecialization = z.object({
-  name: z
-    .string({
-      required_error: "Nome é obrigatório",
-    })
-    .min(3, "Nome muito curto")
-    .max(255, "Nome muito longo"),
-});
+import { useTranslations } from "next-intl";
 
 export default function CreateEspecialization() {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const t = useTranslations("Index");
+
+  const registerEspecialization = z.object({
+    name: z
+      .string({
+        required_error: t("especializations.createEspecialization.errors.name"),
+      })
+      .min(3, t("especializations.createEspecialization.errors.nameShort"))
+      .max(255, t("especializations.createEspecialization.errors.nameLong")),
+  });
+
   const {
     register,
     reset,
@@ -73,7 +75,7 @@ export default function CreateEspecialization() {
         className="bg-main-bg-darker rounded-full text-lg max-w-[20rem] w-full p-3 text-white cursor-pointer ml-5"
         onPress={onOpen}
       >
-        Cadastrar
+        {t("especializations.btnTitle")}
       </Button>
       <Modal
         isOpen={isOpen}
@@ -85,13 +87,13 @@ export default function CreateEspecialization() {
         <ModalContent>
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Cadastrar especialização
+              {t("especializations.createEspecialization.title")}
             </ModalHeader>
             <form onSubmit={handleSubmit(handleRegisterAppoitment)}>
               <ModalBody>
                 <div className="flex flex-col w-full mb-5">
                   <label className="text-lg text-default-400 mb-3">
-                    Nome da especialização
+                    {t("especializations.createEspecialization.name")}
                   </label>
                   <input
                     className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
@@ -100,19 +102,21 @@ export default function CreateEspecialization() {
                     title="Cadastrar especialização"
                     {...register("name")}
                   />
+                  {errors.name && (
+                    <span className="text-red-500 text-sm mt-3">
+                      {errors.name.message}
+                    </span>
+                  )}
                 </div>
-                {errors.name && (
-                  <span className="text-red-500 text-sm">
-                    {errors.name.message}
-                  </span>
-                )}
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onClick={onClose}>
-                  Fechar
+                  {t("especializations.actions.cancel")}
                 </Button>
                 <Button disabled={isLoading} type="submit" color="primary">
-                  {isLoading ? "Cadastrando..." : "Cadastrar"}
+                  {isLoading
+                    ? t("especializations.submiting")
+                    : t("especializations.submit")}
                 </Button>
               </ModalFooter>
             </form>

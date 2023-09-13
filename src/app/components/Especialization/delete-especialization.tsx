@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteEspecialization } from "@/services/especialization";
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 
 interface EspecializationProps {
   especialization: Especialization;
@@ -23,6 +24,7 @@ export const DeleteEspecialization = ({
   especialization,
 }: EspecializationProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const t = useTranslations("Index");
 
   const queryClient = useQueryClient();
 
@@ -32,11 +34,11 @@ export const DeleteEspecialization = ({
     onSuccess: () => {
       queryClient.invalidateQueries(["listEspecializations"]);
       onClose();
-      toast.success("Especialização deletada com sucesso!");
+      toast.success(t("especializations.deleteEspecialization.toast.success"));
     },
     onError: (error: Error | AxiosError) => {
       if (axios.isAxiosError(error)) {
-        toast.error("Erro ao deletar a especialização");
+        toast.error(t("especializations.deleteEspecialization.toast.error"));
         return;
       }
     },
@@ -64,13 +66,14 @@ export const DeleteEspecialization = ({
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Deletar especialização
+                {t("especializations.deleteEspecialization.title")}
               </span>
             </ModalHeader>
 
             <ModalBody>
               <span className="text-lg text-white cursor-pointer active:opacity-50">
-                Deseja deletar a especialização {especialization.name}?
+                {t("especializations.deleteEspecialization.message")}{" "}
+                {especialization.name}?
               </span>
             </ModalBody>
             <ModalFooter>
@@ -79,14 +82,16 @@ export const DeleteEspecialization = ({
                 variant="flat"
                 onClick={onClose}
               >
-                Cancelar
+                {t("especializations.actions.cancel")}
               </Button>
               <Button
                 onClick={() => mutateAsync()}
                 color="danger"
                 variant="flat"
               >
-                {isLoading ? "Deletando..." : "Confirmar"}
+                {isLoading
+                  ? t("especializations.deleteEspecialization.deleting")
+                  : t("especializations.actions.confirm")}
               </Button>
             </ModalFooter>
           </>

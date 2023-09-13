@@ -43,7 +43,7 @@ export const DeleteDoctor = ({ doctor }: DeleteDoctorProps) => {
 
   return (
     <>
-      <Tooltip content="Deletar Médico">
+      <Tooltip content={t("doctors.table.tooltips.delete")}>
         <span
           onClick={onOpen}
           className="text-lg text-danger cursor-pointer active:opacity-50"

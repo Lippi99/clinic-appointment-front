@@ -8,10 +8,13 @@ import CreateAppointment from "../../components/Appointment/create-appointment";
 import { useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import Loading from "./loading";
+import { useTranslations } from "next-intl";
 
 export default function Appointments() {
   const [name, setName] = useState("");
   const debouncedSearch = useDebounce(name, 500);
+
+  const t = useTranslations("Index");
 
   const { data, isFetching } = useQuery({
     queryKey: ["listAppointments", debouncedSearch],
@@ -23,14 +26,14 @@ export default function Appointments() {
   return (
     <LayoutAppointments>
       <header className="flex items-center mt-4">
-        <h1 className="text-white text-3xl">Consultas</h1>
+        <h1 className="text-white text-3xl">{t("appointments.title")}</h1>
         <CreateAppointment />
       </header>
       <div className="mt-5 mb-10 flex justify-end">
         <input
           onChange={(e) => setName(e.target.value)}
           value={name}
-          placeholder="Pesquise pela consulta..."
+          placeholder={t("appointments.searchAppointment")}
           className="text-white  bg-main-bg-darker max-w-xs border-none  w-full rounded-large outline-border-light p-2 border border-border-light"
           type="text"
         />
