@@ -1,12 +1,16 @@
+import { createTranslator } from "next-intl";
 import { Header } from "../../components/Header";
 import { ReactToast } from "../../components/ReactToast";
 import { Sidebar } from "../../components/Sidebar";
-import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Especializações",
-  description: "Cadastrar pacientes",
-};
+export async function generateMetadata({ params: { locale } }: any) {
+  const messages = (await import(`../../../messages/${locale}.json`)).default;
+  const t = createTranslator({ locale, messages });
+
+  return {
+    title: t("Index.especializations.title"),
+  };
+}
 export default function LayoutSpecializations({
   children,
 }: {

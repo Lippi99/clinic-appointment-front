@@ -8,7 +8,6 @@ export const Header = () => {
           <div></div>
           <div className="flex items-center">
             <TransLation />
-            <h1 className="text-white text-xl">Perfil</h1>
           </div>
         </nav>
       </header>

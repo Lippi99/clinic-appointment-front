@@ -22,7 +22,7 @@
       },
       "error": {
         "email": "E-mail é obrigatório",
-        "password": "A Senha deve ter no mínimo 6 caracteres"
+        "password": "A senha deve ter no mínimo 6 caracteres"
       }
     },
     "patients": {
@@ -139,7 +139,11 @@
         "title": "Deletar médico",
         "message": "Deseja realmente excluir o médico",
         "delete": "Deletar médico",
-        "deleting": "Deletando médico..."
+        "deleting": "Deletando médico...",
+        "toast": {
+          "success": "Médico deletado com sucesso!",
+          "error": "Erro ao deletar o médico!"
+        }
       },
 
       "table": {
@@ -226,7 +230,11 @@
         "title": "Deletar consulta",
         "message": "Deseja realmente excluir a consulta",
         "delete": "Deletar consulta",
-        "deleting": "Deletando consulta..."
+        "deleting": "Deletando consulta...",
+        "toast": {
+          "success": "Consulta deletada com sucesso!",
+          "error": "Erro ao deletar a consulta!"
+        }
       },
       "table": {
         "doctorName": "Nome do médico",
