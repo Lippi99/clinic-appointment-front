@@ -8,6 +8,7 @@ import { TableListDoctors } from "../../components/Doctor/table-list-doctors";
 import { Doctor } from "../../models/doctor";
 import Loading from "./loading";
 import { useDebounce } from "@uidotdev/usehooks";
+import { useTranslations } from "next-intl";
 export default function Page() {
   const [name, setName] = useState("");
   const debouncedSearch = useDebounce(name, 500);
@@ -18,17 +19,19 @@ export default function Page() {
     staleTime: 1000 * 60 * 60 * 24, // 24 hours,
   });
 
+  const t = useTranslations("Index");
+
   return (
     <LayoutDoctors>
       <header className="flex items-center mt-4">
-        <h1 className="text-white text-3xl">Médicos</h1>
+        <h1 className="text-white text-3xl">{t("doctors.title")}</h1>
         <CreateDoctor />
       </header>
       <div className="mt-5 mb-10 flex justify-end">
         <input
           onChange={(e) => setName(e.target.value)}
           value={name}
-          placeholder="Pesquise pelo médico..."
+          placeholder={t("doctors.searchDoctor")}
           className="text-white  bg-main-bg-darker max-w-xs border-none  w-full rounded-large outline-border-light p-2 border border-border-light"
           type="text"
         />

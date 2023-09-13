@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { DeleteIcon } from "../Icons/DeleteIcon";
 import axios, { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 
 interface PatientProps {
   patient: Patient;
@@ -21,6 +22,7 @@ interface PatientProps {
 
 export const DeletePatient = ({ patient }: PatientProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const t = useTranslations("Index");
 
   const queryClient = useQueryClient();
 
@@ -42,7 +44,7 @@ export const DeletePatient = ({ patient }: PatientProps) => {
 
   return (
     <>
-      <Tooltip content="Deletar paciente">
+      <Tooltip content={t("patients.table.tooltips.delete")}>
         <span
           onClick={onOpen}
           className="text-lg text-danger cursor-pointer active:opacity-50"
@@ -62,13 +64,13 @@ export const DeletePatient = ({ patient }: PatientProps) => {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Deletar paciente
+                {t("patients.deletePatient.title")}
               </span>
             </ModalHeader>
 
             <ModalBody>
               <span className="text-lg text-white cursor-pointer active:opacity-50">
-                Deseja deletar o paciente {patient?.name}?
+                {t("patients.deletePatient.message")} {patient?.name}?
               </span>
             </ModalBody>
             <ModalFooter>
@@ -77,14 +79,16 @@ export const DeletePatient = ({ patient }: PatientProps) => {
                 variant="flat"
                 onClick={onClose}
               >
-                Cancelar
+                {t("patients.actions.cancel")}
               </Button>
               <Button
                 color="danger"
                 variant="flat"
                 onClick={() => mutateAsync()}
               >
-                {isLoading ? "Deletando..." : "Confirmar"}
+                {isLoading
+                  ? t("patients.deletePatient.deleting")
+                  : t("patients.actions.confirm")}
               </Button>
             </ModalFooter>
           </>

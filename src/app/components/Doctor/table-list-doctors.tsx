@@ -10,10 +10,11 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
+import { use, useCallback, useMemo, useState } from "react";
 import { EditIcon } from "../Icons/EditIcon";
 import { VisualizeDoctor } from "./visualize-doctor";
 import { DeleteDoctor } from "./delete-doctor";
+import { useTranslations } from "next-intl";
 
 interface TableListDoctorProps {
   doctors: Doctor[];
@@ -21,6 +22,7 @@ interface TableListDoctorProps {
 
 export const TableListDoctors = ({ doctors }: TableListDoctorProps) => {
   const [page, setPage] = useState(1);
+  const t = useTranslations("Index");
 
   const rowsPerPage = 10;
   const items = useMemo(() => {
@@ -96,14 +98,16 @@ export const TableListDoctors = ({ doctors }: TableListDoctorProps) => {
       }}
     >
       <TableHeader className="bg-main-bg-darker">
-        <TableColumn key="name">Nome</TableColumn>
-        <TableColumn key="email">E-mail</TableColumn>
-        <TableColumn key="specialization">Especialização</TableColumn>
-        <TableColumn key="actions">Ações</TableColumn>
+        <TableColumn key="name">{t("doctors.table.name")}</TableColumn>
+        <TableColumn key="email">{t("doctors.table.email")}</TableColumn>
+        <TableColumn key="specialization">
+          {t("doctors.table.especialization")}
+        </TableColumn>
+        <TableColumn key="actions">{t("doctors.table.actions")}</TableColumn>
       </TableHeader>
       <TableBody
         emptyContent={
-          <span className="text-white">Nenhum dado encontrado</span>
+          <span className="text-white">{t("doctors.table.empty")}</span>
         }
         className="bg-main-bg-darker"
         items={items || []}

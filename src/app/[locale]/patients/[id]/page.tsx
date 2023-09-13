@@ -9,33 +9,36 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { listPatientById, updatePatientById } from "@/services/patient";
 import { toast } from "react-toastify";
 
-import { Button, Spinner } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import Loading from "../loading";
 import ReactDatePicker from "react-datepicker";
-
-const updatePatientSchema = z.object({
-  name: z.string().min(3, "O nome deve ter no mínimo 3 caracteres"),
-  lastName: z.string().min(3, "O sobrenome deve ter no mínimo 3 caracteres"),
-  birth: z
-    .string({
-      required_error: "A data de nascimento deve ser informada",
-    })
-    .refine(
-      (data) => {
-        const birth = new Date(data);
-        const currentDate = new Date();
-        return birth <= currentDate;
-      },
-      {
-        message: "A data de nascimento deve ser menor que a data atual",
-      }
-    ),
-  address: z.string().min(3, "O endereço deve ser informado"),
-  email: z.string().email("Informe seu e-mail"),
-});
+import { useTranslations } from "next-intl";
 
 export default function Page({ params }: { params: { id: string } }) {
+  const t = useTranslations("Index");
+
+  const updatePatientSchema = z.object({
+    name: z.string().min(3, t("patients.createPatient.errors.name")),
+    lastName: z.string().min(3, t("patients.createPatient.errors.lastName")),
+    birth: z
+      .string({
+        required_error: t("patients.createPatient.errors.birth"),
+      })
+      .refine(
+        (data) => {
+          const birth = new Date(data);
+          const currentDate = new Date();
+          return birth <= currentDate;
+        },
+        {
+          message: t("patients.createPatient.errors.birthInvalid"),
+        }
+      ),
+    address: z.string().min(3, t("patients.createPatient.errors.address")),
+    email: z.string().email(t("patients.createPatient.errors.email")),
+  });
+
   const queryClient = useQueryClient();
   const { data: patient, isLoading } = useQuery({
     queryFn: () => listPatientById(params.id),
@@ -57,10 +60,10 @@ export default function Page({ params }: { params: { id: string } }) {
     onSuccess: () => {
       queryClient.invalidateQueries(["listPatientById"]);
       queryClient.invalidateQueries(["listPatients"]);
-      toast.success("Paciente atualizado com sucesso");
+      toast.success(t("patients.updatePatient.toast.success"));
     },
     onError: () => {
-      toast.error("Erro ao atualizar paciente");
+      toast.error(t("patients.updatePatient.toast.error"));
     },
   });
 
@@ -75,7 +78,9 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <LayoutHome>
       <header className="flex items-center mt-4">
-        <h1 className="text-white text-3xl">Paciente {patient?.name}</h1>
+        <h1 className="text-white text-3xl">
+          {t("patients.updatePatient.title")} {patient?.name}
+        </h1>
       </header>
       <form
         onSubmit={handleSubmit(handleUpdatePatient)}
@@ -83,11 +88,11 @@ export default function Page({ params }: { params: { id: string } }) {
       >
         <div className="flex flex-col w-full mb-5">
           <input
-            placeholder="Nome"
+            placeholder={t("patients.createPatient.name")}
             className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
             type="text"
             id="name"
-            title="name"
+            title={t("patients.createPatient.name")}
             defaultValue={patient?.name}
             {...register("name")}
           />
@@ -97,11 +102,11 @@ export default function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="flex flex-col w-full mb-5">
           <input
-            placeholder="Sobrenome"
+            placeholder={t("patients.createPatient.lastName")}
             className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
             type="text"
             id="lastName"
-            title="Sobrenome"
+            title={t("patients.createPatient.lastName")}
             defaultValue={patient?.lastName}
             {...register("lastName")}
           />
@@ -113,11 +118,11 @@ export default function Page({ params }: { params: { id: string } }) {
         </div>
         <div className="flex flex-col w-full mb-5">
           <input
-            placeholder="E-mail"
+            placeholder={t("patients.createPatient.email")}
             className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
             type="email"
             id="email"
-            title="email"
+            title={t("patients.createPatient.email")}
             defaultValue={patient?.email}
             {...register("email")}
           />
@@ -128,11 +133,11 @@ export default function Page({ params }: { params: { id: string } }) {
 
         <div className="flex flex-col w-full mb-5">
           <input
-            placeholder="Endereço"
+            placeholder={t("patients.createPatient.address")}
             className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
             type="text"
             id="address"
-            title="address"
+            title={t("patients.createPatient.address")}
             defaultValue={patient?.address}
             {...register("address")}
           />
@@ -150,7 +155,7 @@ export default function Page({ params }: { params: { id: string } }) {
             render={({ field }) => (
               <ReactDatePicker
                 className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                placeholderText="Data de nascimento"
+                placeholderText={t("patients.createPatient.birth")}
                 onChange={(date) => field.onChange(date?.toISOString())}
                 selected={field.value ? new Date(field.value) : null}
                 dateFormat="dd/MM/yyyy"
@@ -169,7 +174,7 @@ export default function Page({ params }: { params: { id: string } }) {
             type="button"
           >
             <Link className="w-full" href="/patients">
-              Voltar
+              {t("patients.actions.back")}
             </Link>
           </Button>
           <Button
@@ -178,7 +183,9 @@ export default function Page({ params }: { params: { id: string } }) {
             type="submit"
             color="primary"
           >
-            {isUpdating ? "Atualizando..." : "Atualizar"}
+            {isUpdating
+              ? t("patients.updatePatient.updating")
+              : t("patients.updatePatient.update")}
           </Button>
         </div>
       </form>

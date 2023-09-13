@@ -16,34 +16,37 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createPatient } from "@/services/patient";
 import { toast } from "react-toastify";
 import ReactDatePicker from "react-datepicker";
-
-const registerPatientSchema = z.object({
-  name: z.string().min(3, "O nome deve ter no mínimo 3 caracteres"),
-  lastName: z.string().min(3, "O sobrenome deve ter no mínimo 3 caracteres"),
-  birth: z
-    .string({
-      required_error: "A data de nascimento deve ser informada",
-    })
-    .refine(
-      (data) => {
-        const currentDate = new Date();
-        return new Date(data) < currentDate;
-      },
-      {
-        message: "A data de nascimento deve ser menor que a data atual",
-      }
-    ),
-  region: z
-    .string({
-      required_error: "A região deve ser informada",
-    })
-    .min(3, "A região deve ser informada"),
-  address: z.string().min(3, "O endereço deve ser informado"),
-  email: z.string().email("Informe seu e-mail"),
-});
+import { useTranslations } from "next-intl";
 
 export default function CreatePatient() {
+  const t = useTranslations("Index");
+  const registerPatientSchema = z.object({
+    name: z.string().min(3, t("patients.createPatient.errors.name")),
+    lastName: z.string().min(3, t("patients.createPatient.errors.lastName")),
+    birth: z
+      .string({
+        required_error: t("patients.createPatient.errors.birth"),
+      })
+      .refine(
+        (data) => {
+          const currentDate = new Date();
+          return new Date(data) < currentDate;
+        },
+        {
+          message: t("patients.createPatient.errors.birthInvalid"),
+        }
+      ),
+    region: z
+      .string({
+        required_error: t("patients.createPatient.errors.region"),
+      })
+      .min(3, t("patients.createPatient.errors.region")),
+    address: z.string().min(3, t("patients.createPatient.errors.address")),
+    email: z.string().email(t("patients.createPatient.errors.email")),
+  });
+
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+
   const {
     control,
     register,
@@ -63,10 +66,10 @@ export default function CreatePatient() {
         queryClient.invalidateQueries(["listPatients"]);
         reset();
         onClose();
-        toast.success("Paciente criado com sucesso!");
+        toast.success(t("patients.createPatient.toast.success"));
       },
       onError: () => {
-        toast.error("Erro ao cadastrar paciente", {
+        toast.error("patients.createPatient.toast.error", {
           delay: 10,
         });
       },
@@ -85,7 +88,7 @@ export default function CreatePatient() {
         className="bg-main-bg-darker rounded-full text-lg max-w-[20rem] w-full p-3 text-white cursor-pointer ml-5"
         onPress={onOpen}
       >
-        Cadastrar
+        {t("patients.btnTitle")}
       </Button>
       <Modal
         isOpen={isOpen}
@@ -97,21 +100,21 @@ export default function CreatePatient() {
         <ModalContent>
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Cadastrar paciente
+              {t("patients.createPatient.title")}
             </ModalHeader>
             <form onSubmit={handleSubmit(handleRegisterPatient)}>
               <ModalBody>
                 <div className="flex gap-3">
                   <div className="flex flex-col w-full mb-5">
                     <label className="text-lg text-default-400 mb-3">
-                      Nome do paciente
+                      {t("patients.createPatient.name")}
                     </label>
                     <input
-                      placeholder="Nome"
+                      placeholder={t("patients.createPatient.name")}
                       className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                       type="text"
                       id="name"
-                      title="name"
+                      title={t("patients.createPatient.name")}
                       {...register("name")}
                     />
                     {errors.name && (
@@ -122,14 +125,14 @@ export default function CreatePatient() {
                   </div>
                   <div className="flex flex-col w-full mb-5">
                     <label className="text-lg text-default-400 mb-3">
-                      Sobrenome do paciente
+                      {t("patients.createPatient.lastName")}
                     </label>
                     <input
-                      placeholder="Sobrenome"
+                      placeholder={t("patients.createPatient.lastName")}
                       className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                       type="text"
                       id="lastName"
-                      title="Sobrenome"
+                      title={t("patients.createPatient.lastName")}
                       {...register("lastName")}
                     />
                     {errors.lastName && (
@@ -141,14 +144,14 @@ export default function CreatePatient() {
                 </div>
                 <div className="flex flex-col w-full mb-5">
                   <label className="text-lg text-default-400 mb-3">
-                    E-mail do paciente
+                    {t("patients.createPatient.email")}
                   </label>
                   <input
                     placeholder="E-mail"
                     className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                     type="email"
                     id="email"
-                    title="email"
+                    title={t("patients.createPatient.email")}
                     {...register("email")}
                   />
                   {errors.email && (
@@ -160,14 +163,14 @@ export default function CreatePatient() {
                 <div className="flex gap-3">
                   <div className="flex flex-col w-full mb-5">
                     <label className="text-lg text-default-400 mb-3">
-                      Endereço do paciente
+                      {t("patients.createPatient.address")}
                     </label>
                     <input
-                      placeholder="Endereço"
+                      placeholder={t("patients.createPatient.address")}
                       className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                       type="text"
                       id="address"
-                      title="address"
+                      title={t("patients.createPatient.address")}
                       {...register("address")}
                     />
                     {errors.address && (
@@ -178,14 +181,14 @@ export default function CreatePatient() {
                   </div>
                   <div className="flex flex-col w-full mb-5">
                     <label className="text-lg text-default-400 mb-3">
-                      Região do paciente
+                      {t("patients.createPatient.regionLabel")}
                     </label>
                     <input
-                      placeholder="Teresópolis / RJ"
+                      placeholder={t("patients.createPatient.region")}
                       className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                       type="text"
                       id="region"
-                      title="region"
+                      title={t("patients.createPatient.region")}
                       {...register("region")}
                     />
                     {errors.region && (
@@ -197,7 +200,7 @@ export default function CreatePatient() {
                 </div>
                 <div className="flex flex-col w-full">
                   <label className="text-lg text-default-400 mb-3">
-                    Data de nascimento do paciente
+                    {t("patients.createPatient.birth")}
                   </label>
                   <Controller
                     control={control}
@@ -205,7 +208,7 @@ export default function CreatePatient() {
                     render={({ field }) => (
                       <ReactDatePicker
                         className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                        placeholderText="Data de nascimento"
+                        placeholderText={t("patients.createPatient.birth")}
                         onChange={(date) => field.onChange(date?.toISOString())}
                         selected={field.value ? new Date(field.value) : null}
                         dateFormat="dd/MM/yyyy"
@@ -222,10 +225,12 @@ export default function CreatePatient() {
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="flat" onClick={onClose}>
-                  Fechar
+                  {t("patients.createPatient.close")}
                 </Button>
                 <Button disabled={isLoading} type="submit" color="primary">
-                  {isLoading ? "Cadastrando..." : "Cadastrar"}
+                  {isLoading
+                    ? t("patients.createPatient.submit.loading")
+                    : t("patients.createPatient.submit.text")}
                 </Button>
               </ModalFooter>
             </form>

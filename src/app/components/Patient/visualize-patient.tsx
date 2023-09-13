@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import { EyeIcon } from "../Icons/ViewIcon";
 import { format } from "date-fns";
+import { useTranslations } from "next-intl";
 
 interface PatientProps {
   patient: Patient;
@@ -18,10 +19,10 @@ interface PatientProps {
 
 export const VisualizePatient = ({ patient }: PatientProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-
+  const t = useTranslations("Index");
   return (
     <>
-      <Tooltip content="Visualizar paciente">
+      <Tooltip content={t("patients.table.tooltips.visualize")}>
         <span
           onClick={onOpen}
           className="text-lg  text-default-400 cursor-pointer active:opacity-50"
@@ -41,7 +42,7 @@ export const VisualizePatient = ({ patient }: PatientProps) => {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Paciente {patient?.name}
+                {t("patients.visualizePatient.title")} {patient?.name}
               </span>
             </ModalHeader>
 
@@ -105,7 +106,7 @@ export const VisualizePatient = ({ patient }: PatientProps) => {
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onClick={onClose}>
-                Fechar
+                {t("patients.actions.close")}
               </Button>
             </ModalFooter>
           </>

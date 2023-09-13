@@ -23,6 +23,131 @@
         "email": "E-mail é obrigatório",
         "password": "A Senha deve ter no mínimo 6 caracteres"
       }
+    },
+    "patients": {
+      "title": "Pacientes",
+      "btnTitle": "Cadastrar",
+      "actions": {
+        "cancel": "Cancelar",
+        "close": "Fechar",
+        "back": "Voltar",
+        "update": "Atualizar",
+        "confirm": "Confirmar"
+      },
+      "searchPatient": "Buscar paciente",
+      "createPatient": {
+        "errors": {
+          "name": "O nome deve ter no mínimo 3 carácteres",
+          "lastName": "O sobrenome deve ter no mínimo 3 carácteres",
+          "birth": "A data de nascimento deve ser informada",
+          "birthInvalid": "A data de nascimento deve ser menor que a data atual",
+          "region": "A região deve ser informada",
+          "email": "O e-mail deve ser informado",
+          "address": "O endereço deve ser informado"
+        },
+        "toast": {
+          "success": "Paciente cadastrado com sucesso!",
+          "error": "Erro ao cadastrar paciente!"
+        },
+        "title": "Cadastrar paciente",
+        "name": "Nome do paciente",
+        "lastName": "Sobrenome do paciente",
+        "email": "E-mail do paciente",
+        "address": "Endereço do paciente",
+        "regionLabel": "Região do paciente",
+        "region": "Teresópolis / RJ",
+        "birth": "Data de nascimento do paciente",
+        "close": "Fechar",
+        "submit": {
+          "text": "Cadastrar",
+          "loading": "Cadastrando..."
+        }
+      },
+      "visualizePatient": {
+        "title": "Paciente"
+      },
+      "updatePatient": {
+        "title": "Paciente",
+        "update": "Atualizar paciente",
+        "updating": "Atualizando paciente...",
+        "toast": {
+          "success": "Paciente atualizado com sucesso!",
+          "error": "Erro ao atualizar o paciente!"
+        }
+      },
+      "deletePatient": {
+        "title": "Deletar paciente",
+        "message": "Deseja realmente excluir o paciente",
+        "deleting": "Deletando paciente..."
+      },
+      "table": {
+        "name": "Nome",
+        "email": "E-mail",
+        "region": "Região",
+        "birth": "Data de nascimento",
+        "actions": "Ações",
+        "empty": "Nenhum paciente cadastrado"
+      }
+    },
+
+    "doctors": {
+      "title": "Médicos",
+      "btnTitle": "Cadastrar",
+      "searchDoctor": "Buscar médico",
+      "actions": {
+        "cancel": "Cancelar",
+        "close": "Fechar",
+        "back": "Voltar",
+        "update": "Atualizar",
+        "confirm": "Confirmar"
+      },
+      "createDoctor": {
+        "errors": {
+          "name": "O nome deve ser informado",
+          "nameMin": "O nome deve ter no mínimo 3 carácteres",
+          "email": "O e-mail deve ser informado",
+          "especialization": "A especialização deve ser informada"
+        },
+        "toast": {
+          "success": "Médico cadastrado com sucesso!",
+          "error": "Erro ao cadastrar o médico!",
+          "doctorExists": "Médico já cadastrado!"
+        },
+        "title": "Cadastrar médico",
+        "name": "Nome do médico",
+        "email": "E-mail do médico",
+        "especialization": "Especialização do médico",
+        "patientName": "Nome do paciente",
+        "close": "Fechar",
+        "submit": {
+          "text": "Cadastrar",
+          "loading": "Cadastrando..."
+        }
+      },
+
+      "visualizeDoctor": {
+        "title": "Médico"
+      },
+
+      "deleteDoctor": {
+        "title": "Deletar médico",
+        "message": "Deseja realmente excluir o médico",
+        "delete": "Deletar médico",
+        "deleting": "Deletando médico..."
+      },
+
+      "table": {
+        "name": "Nome",
+        "email": "E-mail",
+        "especialization": "Especialização",
+        "actions": "Ações",
+        "empty": "Nenhum médico cadastrado",
+        "tooltips": {
+          "visualize": "Visualizar médico",
+          "edit": "Editar médico",
+          "delete": "Deletar médico"
+        }
+      }
     }
   }
 }

@@ -9,8 +9,8 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { EyeIcon } from "../Icons/ViewIcon";
-import { format } from "date-fns";
 import { Doctor } from "@/app/models/doctor";
+import { useTranslations } from "next-intl";
 
 interface DoctorProps {
   doctor: Doctor;
@@ -18,6 +18,7 @@ interface DoctorProps {
 
 export const VisualizeDoctor = ({ doctor }: DoctorProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const t = useTranslations("Index");
 
   return (
     <>
@@ -41,7 +42,7 @@ export const VisualizeDoctor = ({ doctor }: DoctorProps) => {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Médico {doctor.name}
+                {t("doctors.visualizeDoctor.title")} {doctor.name}
               </span>
             </ModalHeader>
 
@@ -82,7 +83,7 @@ export const VisualizeDoctor = ({ doctor }: DoctorProps) => {
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onClick={onClose}>
-                Fechar
+                {t("doctors.actions.close")}
               </Button>
             </ModalFooter>
           </>

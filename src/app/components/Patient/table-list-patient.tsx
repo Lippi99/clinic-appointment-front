@@ -15,6 +15,7 @@ import Link from "next/link";
 import { DeletePatient } from "./delete-patient";
 import { EditIcon } from "../Icons/EditIcon";
 import { formatDate } from "@/utils/date";
+import { useTranslations } from "next-intl";
 
 interface TableListPatientProps {
   data: PatientData;
@@ -22,6 +23,7 @@ interface TableListPatientProps {
 
 export const TableListPatient = ({ data }: TableListPatientProps) => {
   const [page, setPage] = useState(1);
+  const t = useTranslations("Index");
 
   const rowsPerPage = 10;
   const items = useMemo(() => {
@@ -78,7 +80,7 @@ export const TableListPatient = ({ data }: TableListPatientProps) => {
               <VisualizePatient patient={patient} />
             </span>
 
-            <Tooltip content="Editar paciente">
+            <Tooltip content={t("patients.table.tooltips.edit")}>
               <Link
                 href={`/patients/${patient.id}`}
                 className="text-lg text-default-400 cursor-pointer active:opacity-50"
@@ -120,15 +122,15 @@ export const TableListPatient = ({ data }: TableListPatientProps) => {
       }}
     >
       <TableHeader className="bg-main-bg-darker">
-        <TableColumn key="name">Nome</TableColumn>
-        <TableColumn key="email">E-mail</TableColumn>
-        <TableColumn key="region">Região</TableColumn>
-        <TableColumn key="birth">Nascimento</TableColumn>
-        <TableColumn key="actions">Ações</TableColumn>
+        <TableColumn key="name">{t("patients.table.name")}</TableColumn>
+        <TableColumn key="email">{t("patients.table.email")}</TableColumn>
+        <TableColumn key="region">{t("patients.table.region")}</TableColumn>
+        <TableColumn key="birth">{t("patients.table.birth")}</TableColumn>
+        <TableColumn key="actions">{t("patients.table.actions")}</TableColumn>
       </TableHeader>
       <TableBody
         emptyContent={
-          <span className="text-white">Nenhum dado encontrado</span>
+          <span className="text-white">{t("patients.table.empty")}</span>
         }
         className="bg-main-bg-darker"
         items={items || []}

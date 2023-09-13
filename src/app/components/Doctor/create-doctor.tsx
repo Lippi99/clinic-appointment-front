@@ -13,24 +13,26 @@ import {
 } from "@nextui-org/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
-const registerDoctorSchema = z.object({
-  name: z
-    .string({
-      required_error: "O nome deve ser informado",
-    })
-    .min(3, "O nome deve ter no mínimo 3 caracteres"),
-  email: z.string().email("Informe um e-mail válido"),
-  specializationId: z.string({
-    required_error: "A especialidade deve ser informada",
-  }),
-});
-
 export const CreateDoctor = () => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const t = useTranslations("Index");
+
+  const registerDoctorSchema = z.object({
+    name: z
+      .string({
+        required_error: t("doctors.createDoctor.errors.name"),
+      })
+      .min(3, t("doctors.createDoctor.errors.nameMin")),
+    email: z.string().email(t("doctors.createDoctor.errors.email")),
+    specializationId: z.string({
+      required_error: t("doctors.createDoctor.errors.especialization"),
+    }),
+  });
 
   const {
     register,
@@ -48,13 +50,13 @@ export const CreateDoctor = () => {
       queryClient.invalidateQueries(["listDoctors"]);
       reset();
       onClose();
-      toast.success("Médico criado com sucesso!");
+      toast.success(t("doctors.createDoctor.toast.success"));
     },
     onError: (error) => {
       if ((error as AxiosError).response?.status === 400) {
-        toast.error("Médico já cadastrado");
+        toast.error(t("doctors.createDoctor.toast.doctorExists"));
       } else {
-        toast.error("Houve um erro ao cadastrar o médico", {
+        toast.error(t("doctors.createDoctor.toast.error"), {
           delay: 10,
         });
       }
@@ -76,7 +78,7 @@ export const CreateDoctor = () => {
         className="bg-main-bg-darker rounded-full text-lg max-w-[20rem] w-full p-3 text-white cursor-pointer ml-5"
         onPress={onOpen}
       >
-        Cadastrar
+        {t("doctors.btnTitle")}
       </Button>
       <Modal
         isOpen={isOpen}
@@ -88,7 +90,7 @@ export const CreateDoctor = () => {
         <ModalContent>
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Cadastrar médico
+              {t("doctors.createDoctor.title")}
             </ModalHeader>
             <form
               onSubmit={handleSubmit(handleCreateDoctor)}
@@ -96,13 +98,15 @@ export const CreateDoctor = () => {
             >
               <ModalBody className="w-full">
                 <div className="flex flex-col w-full">
-                  <label className="text-lg text-default-400 mb-3">Nome</label>
+                  <label className="text-lg text-default-400 mb-3">
+                    {t("doctors.createDoctor.name")}
+                  </label>
                   <input
-                    placeholder="Nome"
+                    placeholder={t("doctors.createDoctor.name")}
                     className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                     type="text"
                     id="name"
-                    title="Nome"
+                    title={t("doctors.createDoctor.name")}
                     {...register("name")}
                   />
                   {errors.name && (
@@ -114,14 +118,14 @@ export const CreateDoctor = () => {
 
                 <div className="flex flex-col w-full">
                   <label className="text-lg text-default-400 mb-3">
-                    E-mail
+                    {t("doctors.createDoctor.email")}
                   </label>
                   <input
-                    placeholder="E-mail"
+                    placeholder={t("doctors.createDoctor.email")}
                     className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
                     type="email"
                     id="email"
-                    title="E-mail"
+                    title={t("doctors.createDoctor.email")}
                     {...register("email")}
                   />
                   {errors.email && (
@@ -133,13 +137,13 @@ export const CreateDoctor = () => {
                 <div className="w-full mb-5 flex gap-5">
                   <div className="flex flex-col w-full mb-5">
                     <label className="text-lg text-default-400 mb-3">
-                      Escolha uma especialização
+                      {t("doctors.createDoctor.especialization")}
                     </label>
                     <select
                       id="patientId"
                       title="Id do paciente"
                       className="text-white  bg-main-bg w-full rounded-md outline-border-light p-2 border border-border-light"
-                      placeholder="Nome do paciente"
+                      placeholder={t("doctors.createDoctor.patientName")}
                       {...register("specializationId")}
                     >
                       {especializations?.map((especialization) => (
@@ -159,12 +163,14 @@ export const CreateDoctor = () => {
                   </div>
                 </div>
               </ModalBody>
-              <ModalFooter>
+              <ModalFooter className="flex justify-between w-full">
                 <Button color="danger" variant="flat" onClick={onClose}>
-                  Fechar
+                  {t("doctors.actions.cancel")}
                 </Button>
                 <Button disabled={isLoading} type="submit" color="primary">
-                  {isLoading ? "Cadastrando..." : "Cadastrar"}
+                  {isLoading
+                    ? t("doctors.createDoctor.submit.loading")
+                    : t("doctors.createDoctor.submit.text")}
                 </Button>
               </ModalFooter>
             </form>

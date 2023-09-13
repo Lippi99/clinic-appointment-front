@@ -24,6 +24,142 @@
         "email": "Email is required",
         "password": "Password must have at least 6 characters"
       }
+    },
+
+    "patients": {
+      "title": "Patients",
+      "btnTitle": "Register",
+      "actions": {
+        "cancel": "Cancel",
+        "back": "Back",
+        "update": "Update",
+        "close": "Close",
+        "confirm": "Confirm"
+      },
+      "searchPatient": "Search patient",
+      "createPatient": {
+        "errors": {
+          "name": "Name must have at least 3 characters",
+          "lastName": "Last name must have at least 3 characters",
+          "birth": "Birth date must be informed",
+          "birthInvalid": "Birth date must be less than the current date",
+          "region": "Region must be informed",
+          "email": "Email must be informed",
+          "address": "Address must be informed"
+        },
+        "toast": {
+          "success": "Patient registered successfully!",
+          "error": "Error registering patient!"
+        },
+        "title": "Create patient",
+        "name": "Name of the patient",
+        "lastName": "Last name of the patient",
+        "email": "Email of the patient",
+        "address": "Address of the patient",
+        "regionLabel": "Region of the patient",
+        "region": "San Diego / CA",
+        "birth": "Birth date of the patient",
+        "close": "Close",
+        "submit": {
+          "text": "Submit",
+          "loading": "Submiting..."
+        }
+      },
+      "visualizePatient": {
+        "title": "Patient"
+      },
+
+      "updatePatient": {
+        "title": "Patient",
+        "update": "Update patient",
+        "updating": "Updating patient...",
+        "toast": {
+          "success": "Patient updated successfully!",
+          "error": "Error updating patient!"
+        }
+      },
+      "deletePatient": {
+        "title": "Delete patient",
+        "message": "Are you sure you want to delete the patient",
+        "deleting": "Deletando paciente..."
+      },
+      "table": {
+        "name": "Name",
+        "email": "Email",
+        "region": "Region",
+        "birth": "Birth date",
+        "actions": "Actions",
+        "empty": "No patients found",
+        "tooltips": {
+          "visualize": "Visualize patient",
+          "edit": "Edit patient",
+          "delete": "Delete patient"
+        }
+      }
+    },
+
+    "doctors": {
+      "title": "Doctors",
+      "btnTitle": "Register",
+      "searchDoctor": "Search doctor",
+      "actions": {
+        "cancel": "Cancel",
+        "back": "Back",
+        "update": "Update",
+        "close": "Close",
+        "confirm": "Confirm"
+      },
+      "createDoctor": {
+        "errors": {
+          "name": "Name must be informed",
+          "nameMin": "Name must have at least 3 characters",
+          "email": "E-mail must be informed",
+          "especialization": "Especialization must be informed"
+        },
+        "toast": {
+          "success": "Doctor registered successfully!",
+          "error": "Error registering doctor!",
+          "doctorExists": "Doctor already exists!"
+        },
+        "title": "Create doctor",
+        "name": "Name of the doctor",
+        "email": "Email of the doctor",
+        "especialization": "Especialization of the doctor",
+        "patientName": "Patient name",
+        "close": "Close",
+        "submit": {
+          "text": "Submit",
+          "loading": "Submiting..."
+        }
+      },
+
+      "visualizeDoctor": {
+        "title": "Doctor"
+      },
+
+      "deleteDoctor": {
+        "title": "Delete doctor",
+        "message": "Are you sure you want to delete the doctor",
+        "delete": "Delete doctor",
+        "deleting": "Deleting doctor...",
+        "toast": {
+          "success": "Doctor deleted successfully!",
+          "error": "Error deleting doctor!"
+        }
+      },
+
+      "table": {
+        "name": "Name",
+        "email": "Email",
+        "especialization": "Especialization",
+        "actions": "Actions",
+        "empty": "No doctors found",
+        "tooltips": {
+          "visualize": "Visualize doctor",
+          "edit": "Edit doctor",
+          "delete": "Delete doctor"
+        }
+      }
     }
   }
 }

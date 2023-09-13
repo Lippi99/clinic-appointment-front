@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteDoctor } from "@/services/doctor";
 import { toast } from "react-toastify";
 import axios, { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 
 interface DeleteDoctorProps {
   doctor: Doctor;
@@ -22,6 +23,7 @@ export const DeleteDoctor = ({ doctor }: DeleteDoctorProps) => {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   const queryClient = useQueryClient();
+  const t = useTranslations("Index");
 
   const { mutateAsync, isLoading } = useMutation({
     mutationKey: ["deleteDoctor"],
@@ -29,11 +31,11 @@ export const DeleteDoctor = ({ doctor }: DeleteDoctorProps) => {
     onSuccess: () => {
       queryClient.invalidateQueries(["listDoctors"]);
       onClose();
-      toast.success("Médico deletado com sucesso!");
+      toast.success(t("doctors.deleteDoctor.toast.success"));
     },
     onError: (error: Error | AxiosError) => {
       if (axios.isAxiosError(error)) {
-        toast.error("Erro ao deletar o médico");
+        toast.error(t("doctors.deleteDoctor.toast.error"));
         return;
       }
     },
@@ -61,13 +63,13 @@ export const DeleteDoctor = ({ doctor }: DeleteDoctorProps) => {
           <>
             <ModalHeader className="flex flex-col gap-1">
               <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                Deletar consulta
+                {t("doctors.deleteDoctor.title")}
               </span>
             </ModalHeader>
 
             <ModalBody>
               <span className="text-lg text-white cursor-pointer active:opacity-50">
-                Deseja deletar o médico {doctor.name} ?
+                {t("doctors.deleteDoctor.message")} {doctor.name} ?
               </span>
             </ModalBody>
             <ModalFooter>
@@ -76,14 +78,16 @@ export const DeleteDoctor = ({ doctor }: DeleteDoctorProps) => {
                 variant="flat"
                 onClick={onClose}
               >
-                Cancelar
+                {t("doctors.actions.cancel")}
               </Button>
               <Button
                 color="danger"
                 variant="flat"
                 onClick={() => mutateAsync()}
               >
-                {isLoading ? "Deletando..." : "Confirmar"}
+                {isLoading
+                  ? t("doctors.deleteDoctor.deleting")
+                  : t("doctors.deleteDoctor.delete")}
               </Button>
             </ModalFooter>
           </>
