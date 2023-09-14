@@ -1,16 +1,23 @@
-"use client";
 import { createTranslator } from "next-intl";
 import { Header } from "../../components/Header";
 import { ReactToast } from "../../components/ReactToast";
 import { Sidebar } from "../../components/Sidebar";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params: { locale } }: any) {
-  const messages = (await import(`../../../messages/${locale}.json`)).default;
-  const t = createTranslator({ locale, messages });
+  let messages: any;
+  try {
+    messages = (await import(`../../messages/${locale}.json`)).default;
+    const t = createTranslator({ locale, messages });
 
-  return {
-    title: t("Index.patients.title"),
-  };
+    return {
+      title: t("Index.patients.title"),
+    };
+  } catch (error) {
+    notFound();
+  }
+
+  // const messages = (await import(`../../../messages/${locale}.json`)).default;
 }
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
