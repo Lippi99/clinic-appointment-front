@@ -2,7 +2,17 @@ import { createTranslator } from "next-intl";
 import { Header } from "../../components/Header";
 import { ReactToast } from "../../components/ReactToast";
 import { Sidebar } from "../../components/Sidebar";
-import { notFound } from "next/navigation";
+
+const englishMetadata = {
+  title: "Patients",
+};
+const portugueseMetadata = {
+  title: "Pacientes",
+};
+
+export async function generateMetadata({ params }: any) {
+  return params.lang === "en-US" ? englishMetadata : portugueseMetadata;
+}
 
 // export async function generateMetadata({ params: { locale } }: any) {
 //   let messages: any;
