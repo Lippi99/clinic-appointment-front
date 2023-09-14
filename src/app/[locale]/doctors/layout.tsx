@@ -1,4 +1,3 @@
-"use client";
 import { createTranslator } from "next-intl";
 import { Header } from "../../components/Header";
 import { ReactToast } from "../../components/ReactToast";
