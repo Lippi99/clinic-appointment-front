@@ -20,13 +20,15 @@ It's all about making an appointment between the patient and the doctor. The adm
 4 - Axios
 ```
 
-### Accessing the application:
-```
-e-mail: admin@admin.com
-password: abc123
 ### For backend
 ```
 1 - Node Express
 2 - MySQL
 3 - Prisma
+```
+
+### Accessing the application:
+```
+e-mail: admin@admin.com
+password: abc123
 ```
