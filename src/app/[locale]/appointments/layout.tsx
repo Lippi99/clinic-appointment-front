@@ -1,23 +1,19 @@
-import { createTranslator } from "next-intl";
+"use client";
+import { useTranslations } from "next-intl";
 import { Header } from "../../components/Header";
 import { ReactToast } from "../../components/ReactToast";
 import { Sidebar } from "../../components/Sidebar";
 
-// export async function generateMetadata({ params: { locale } }: any) {
-//   const messages = (await import(`../../../messages/${locale}.json`)).default;
-//   const t = createTranslator({ locale, messages });
-
-//   return {
-//     title: t("Index.appointments.title"),
-//   };
-// }
 export default function LayoutAppointments({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations("Index");
+
   return (
     <>
+      <title>{t("appointments.title")}</title>
       <Header />
       <Sidebar />
       <main className="h-full">

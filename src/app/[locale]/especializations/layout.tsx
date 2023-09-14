@@ -1,24 +1,18 @@
 "use client";
-import { createTranslator } from "next-intl";
+import { createTranslator, useTranslations } from "next-intl";
 import { Header } from "../../components/Header";
 import { ReactToast } from "../../components/ReactToast";
 import { Sidebar } from "../../components/Sidebar";
 
-// export async function generateMetadata({ params: { locale } }: any) {
-//   const messages = (await import(`../../../messages/${locale}.json`)).default;
-//   const t = createTranslator({ locale, messages });
-
-//   return {
-//     title: t("Index.especializations.title"),
-//   };
-// }
 export default function LayoutSpecializations({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations("Index");
   return (
     <>
+      <title>{t("especializations.title")}</title>
       <Header />
       <Sidebar />
       <main className="h-full">

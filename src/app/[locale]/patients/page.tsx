@@ -11,6 +11,7 @@ import { TableListPatient } from "../../components/Patient/table-list-patient";
 import Loading from "./loading";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useTranslations } from "next-intl";
+import Head from "next/head";
 
 export default function Home() {
   const [name, setName] = useState("");

@@ -1,37 +1,14 @@
-import { createTranslator } from "next-intl";
+"use client";
+import { useTranslations } from "next-intl";
 import { Header } from "../../components/Header";
 import { ReactToast } from "../../components/ReactToast";
 import { Sidebar } from "../../components/Sidebar";
 
-const englishMetadata = {
-  title: "Patients",
-};
-const portugueseMetadata = {
-  title: "Pacientes",
-};
-
-export async function generateMetadata({ params }: any) {
-  return params.lang === "en-US" ? englishMetadata : portugueseMetadata;
-}
-
-// export async function generateMetadata({ params: { locale } }: any) {
-//   let messages: any;
-//   try {
-//     messages = (await import(`../../messages/${locale}.json`)).default;
-//     const t = createTranslator({ locale, messages });
-
-//     return {
-//       title: t("Index.patients.title"),
-//     };
-//   } catch (error) {
-//     notFound();
-//   }
-
-//   // const messages = (await import(`../../../messages/${locale}.json`)).default;
-// }
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const t = useTranslations("Index");
   return (
     <>
+      <title>{t("patients.title")}</title>
       <Header />
       <Sidebar />
       <main className="h-full">
