@@ -1,3 +1,7 @@
+
+![project](https://github.com/Lippi99/clinic-appointment-front/assets/65247407/a2779080-fb91-4c2f-85d4-f554558d7c5f)
+
+
 # How to run the project?
 ```
 1 - Open your terminal
@@ -15,6 +19,11 @@ It's all about making an appointment between the patient and the doctor. The adm
 3 - TailwindCSS
 4 - Axios
 ```
+
+### Accessing the application:
+```
+e-mail: admin@admin.com
+password: abc123
 ### For backend
 ```
 1 - Node Express
